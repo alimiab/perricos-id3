@@ -1,6 +1,7 @@
 /* CSS styles for the dog voting app */
 body {
-  align-items: center;
+  font-family: arial, sans-serif;
+  background: #fafafa;
   text-align: center;
 }
 
@@ -8,29 +9,46 @@ h1 {
   margin-bottom: 20px;
 }
 
-button {
+.controls button,
+.filter-btn {
   margin: 5px;
-  padding: 10px 15px;
-  border: 1px solid #000000;
-  background-color: #f0f0f0;
-  display: inline-block;
+  padding : 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  cursor: pointer;
+  background: white;
 }
 
-div {
-  text-align: center;
+.filter-btn.selected {
+  background: #333;
+  color: white;
+}
+
+#dog-list {
+  margin-top: 20px;
 }
 
 .card {
   display: inline-block;
-  vertical-align: top;
-  border: 1px solid #030303;
+  width: 220px;
   padding: 10px;
-  max-width: 450px;
-  text-align: center;
   margin: 10px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: white;
 }
 
-img {
+.card img {
   max-width: 100%;
-  max-height: 150px;
+  border-radius: 10px;
+}
+
+.votes {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.vote-btn {
+  margin: 5px;
+  cursor: pointer;
 }

@@ -1,80 +1,93 @@
 // file for main JS code
 import { getRandomDogImage } from './api.js';
 
-const perricosArray = [Coco, Rocky, Luna, Lola, Daisy, Max]; // Imágenes de perros
+const dogList = document.querySelector('#dog-list');
+const filtersDiv = document.querySelector('#filters');
 
-// Ejemplo de acceso a los elementos del array
-console.log(perricosArray[0]); // Coco
-console.log(perricosArray[1]); // Rocky
-console.log(perricosArray[2]); // Luna
-console.log(perricosArray[3]); // Lola
-console.log(perricosArray[4]); // Daisy
-console.log(perricosArray[5]); // Max
+const names = ['Coco', 'Rocky', 'Luna', 'Lola', 'Daisy', 'Max'];
 
-// Ejemplo de objetos perro // Puedes expandir estos objetos según sea necesario
-//example of dog objects //you can expand these objects as needed
-const perro1 = {
-  id: 1,
-  name: "Coco",
-  votes: 0
-};
-const perro2 = {
-  id: 2,
-  name: "Rocky",
-  votes: 0
-}; 
-const perro3 = {
-  id: 3,
-  name: "Luna",
-  votes: 0
-};
-const perro4 = {
-  id: 4,
-  name: "Lola",
-  votes: 0
-};
-const perro5 = {
-  id: 5,
-  name: "Daisy",
-  votes: 0
-};
-const perro6 = {
-  id: 6,
-  name: "Max",
-  votes: 0
-};
+let dogs = [];
+let selectedName = null;
 
-//gives a random name from the array and assigns it to randomName
-const randomName = names[Math.floor(Math.random() * names.length)];
+//ADD DOGS
+async function addPerricos(amount) {
+  for (let i = 0; i < amount; i++) {
+    const image = await getRandomDogImage();
+    const name = names[Math.floor(Math.random() * names.length)];
 
-// addPerrico();
+    dogs.push({
+      id: crypto.randomUUID(),
+      name,
+      image,
+      votes: 0,
+    });
+  }
+  render();
+}
 
-function renderPerricoArray() {
-  const dogList = document.querySelector('#dog-list');
+//RENDER
+function render() {
+  renderFilters();
+  renderDogs();
+}
+
+function renderDogs() {
   dogList.innerHTML = '';
 
-  perricosArray.forEach((dogImage, index) => {
-    const htmlAdd = `<div class="card">
-      <img src="${dogImage}" alt="Perro" />
-      <br />
-      <p>❤️ 🤮</p>
-      <button>Preciosísimo</button> <button>Feísisimo</button>
-    </div>`;
+  const filteredDogs = selectedName
+    ? dogs.filter(d => d.name === selectedName)
+    : dogs;
 
-    console.log('innerHtml posición', index, dogList.innerHTML);
+  filteredDogs.forEach(dog => {
+    const card = document.createElement('div');
+    card.className = 'card';
 
-    dogList.innerHTML += htmlAdd;
+    card.innerHTML = `
+      <img src="${dog.image}" />
+      <h3>${dog.name}</h3>
+      <div class="votes">❤️ ${dog.votes}</div>
+      <button class="vote-btn">❤️</button>
+      <button class="vote-btn">🤮</button>
+    `;
+
+    const [likeBtn, hateBtn] = card.querySelectorAll('.vote-btn');
+
+    likeBtn.onclick = () => {
+      dog.votes++;
+      renderDogs();
+    };
+
+    hateBtn.onclick = () => {
+      dog.votes--;
+      renderDogs();
+    };
+
+    dogList.appendChild(card);
   });
 }
 
-const addPerrico = async () => {
-  const perricoImg = await getRandomDogImage();
-  perricosArray.push(perricoImg);
-  renderPerricoArray();
-};
+//FILTERS
+function renderFilters() {
+  filtersDiv.innerHTML = '';
 
-renderPerricoArray();
+  names.forEach(name => {
+    const btn = document.createElement('button');
+    btn.textContent = name;
+    btn.className = 'filter-btn';
 
-document.querySelector('#add-1-perrico').addEventListener('click', function () {
-  addPerrico();
-});
+    if (selectedName === name) {
+      btn.classList.add('selected');
+    }
+
+    btn.onclick = () => {
+      selectedName = selectedName === name ? null : name;
+      render();
+    };
+
+    filtersDiv.appendChild(btn);
+  });
+}
+
+//EVENTS
+document.querySelector('#add-1').onclick = () => addPerricos(1);
+document.querySelector('#add-5').onclick = () => addPerricos(5);
