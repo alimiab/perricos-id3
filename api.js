@@ -1,3 +1,4 @@
+// file for API calls
 async function getRandomDogImage() {
   const url = 'https://dog.ceo/api/breeds/image/random';
   try {

@@ -1,4 +1,7 @@
-Ya están los videos subidos. Para los deberes de navidad usad este repositorio https://github.com/josemigg/perricos-id3
+<!-- File for text description -->
+
+
+<!-- Ya están los videos subidos. Para los deberes de navidad usad este repositorio https://github.com/josemigg/perricos-id3
 Y la explicación está en https://www.loom.com/share/e0760b23d0374dc3b9f764c551ea79b8
 
 Resumiendo:
@@ -12,13 +15,13 @@ Resumiendo:
 Bonus:
 - Dadle unos estilos y html a la página para que sean preciosisisisiismos
 - Al pulsar un botón con un nombre, si había otro seleccionado se debe quitar la selección y solo filtrar por el nuevo botón pulsado. 
-- Implementar la lógica de votar a los perricos.
+- Implementar la lógica de votar a los perricos. -->
 
-------------------------------------------
+<!-- ------------------------------------------
 TRANSLATION
-------------------------------------------
+------------------------------------------ -->
 
-The videos are already uploaded. For the Christmas homework, use this repository:
+<!-- The videos are already uploaded. For the Christmas homework, use this repository:
 https://github.com/josemigg/perricos-id3
 
 And the explanation is here:
@@ -44,4 +47,4 @@ Add styles and HTML to make the page very very pretty ✨
 
 When clicking a name button, if another one was selected, it should be unselected and only filter by the newly clicked button.
 
-Implement the logic to vote for the dogs.
+Implement the logic to vote for the dogs. -->

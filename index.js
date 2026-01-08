@@ -1,4 +1,4 @@
-
+// file for main JavaScript functionality
 const perricosArray = [];
 
 // addPerrico();
