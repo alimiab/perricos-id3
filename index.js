@@ -31,6 +31,20 @@ let selectedNames = [];
 // Variable to track breed search input
 let breedSearchTerm = '';
 
+// Cache all breeds from Dog CEO API for suggestions
+let allBreedsList = [];
+async function fetchAllBreeds() {
+  try {
+    const response = await fetch('https://dog.ceo/api/breeds/list/all');
+    const data = await response.json();
+    if (data.status === 'success') {
+      allBreedsList = Object.keys(data.message).map(b => b.charAt(0).toUpperCase() + b.slice(1));
+    }
+  } catch (err) {
+    allBreedsList = [];
+  }
+}
+
 //FUNCTIONS TO ADD AND MANAGE DOGS
 
 /**
@@ -38,28 +52,59 @@ let breedSearchTerm = '';
  * @param {number} amount - How many dogs to add
  */
 async function addPerricos(amount) {
-  // This function is async, so it returns a Promise automatically.
-  // Use Promise.all to fetch all dog images in parallel, not one by one.
-  const dogPromises = [];
-  for (let i = 0; i < amount; i++) {
-    // Each call returns a Promise
-    dogPromises.push(getRandomDogImage());
+  // If breedSearchTerm is set, only add dogs of that breed
+  const breedTerm = breedSearchTerm.trim().toLowerCase();
+  if (breedTerm === '') {
+    // No breed search, add any breed
+    const dogPromises = [];
+    for (let i = 0; i < amount; i++) {
+      dogPromises.push(getRandomDogImage());
+    }
+    const dogDatas = await Promise.all(dogPromises);
+    for (let i = 0; i < dogDatas.length; i++) {
+      const dogData = dogDatas[i];
+      const name = names[Math.floor(Math.random() * names.length)];
+      dogs.push({
+        id: crypto.randomUUID(),
+        name,
+        image: dogData.image,
+        breed: dogData.breed,
+        votes: 0,
+      });
+    }
+  } else {
+    // Breed search is set, add only dogs of that breed using the breed API endpoint
+    // Convert breedTerm to API format (lowercase, hyphens for spaces)
+    const apiBreed = breedTerm.replace(/\s+/g, '-');
+    for (let i = 0; i < amount; i++) {
+      // Fetch from breed-specific endpoint
+      const url = `https://dog.ceo/api/breed/${apiBreed}/images/random`;
+      let dogData;
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        if (json.status === 'success') {
+          dogData = {
+            image: json.message,
+            breed: breedSearchTerm.charAt(0).toUpperCase() + breedSearchTerm.slice(1)
+          };
+        } else {
+          // fallback to random dog if breed not found
+          dogData = await getRandomDogImage();
+        }
+      } catch {
+        dogData = await getRandomDogImage();
+      }
+      const name = names[Math.floor(Math.random() * names.length)];
+      dogs.push({
+        id: crypto.randomUUID(),
+        name,
+        image: dogData.image,
+        breed: dogData.breed,
+        votes: 0,
+      });
+    }
   }
-  // Wait for all Promises to resolve
-  const dogDatas = await Promise.all(dogPromises);
-  // Add each dog to the array
-  for (let i = 0; i < dogDatas.length; i++) {
-    const dogData = dogDatas[i];
-    const name = names[Math.floor(Math.random() * names.length)];
-    dogs.push({
-      id: crypto.randomUUID(),
-      name,
-      image: dogData.image,
-      breed: dogData.breed,
-      votes: 0,
-    });
-  }
-  // After all Promises resolve, update the display
   render();
 }
 
@@ -305,6 +350,8 @@ function renderFilters() {
 //EVENT LISTENERS
 // Wait for the page to fully load before setting up the buttons
 document.addEventListener('DOMContentLoaded', () => {
+      // Fetch all breeds for suggestions on page load
+      fetchAllBreeds();
     // Breed search bar event listener
     const breedSearchInput = document.querySelector('#breed-search-input');
       // Breed search bar event listener and suggestions
@@ -312,8 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
       function showBreedSuggestions(value) {
         breedSuggestionsDiv.innerHTML = '';
         if (!value) return;
-        // Get all unique breeds
-        const breeds = [...new Set(dogs.map(d => d.breed))].sort((a, b) => a.localeCompare(b));
+        // Use all breeds from API for suggestions
+        const breeds = allBreedsList.length > 0
+          ? allBreedsList.sort((a, b) => a.localeCompare(b))
+          : [...new Set(dogs.map(d => d.breed))].sort((a, b) => a.localeCompare(b));
         const matches = breeds.filter(breed => breed.toLowerCase().includes(value.toLowerCase()));
         if (matches.length === 0) return;
         const list = document.createElement('ul');
