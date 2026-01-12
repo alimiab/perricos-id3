@@ -50,3 +50,5 @@ I've added several enhancements beyond the original requirements, such as:
 - Filter type dropdown selector
 - Clear filters button
 - Formatted voting results table
+- Used JSDoc for tags and comments: https://jsdoc.app/about-getting-started 
+- Commented step by step of most of the general code
