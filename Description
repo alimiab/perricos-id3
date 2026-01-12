@@ -48,3 +48,17 @@ Add styles and HTML to make the page very very pretty ✨
 When clicking a name button, if another one was selected, it should be unselected and only filter by the newly clicked button.
 
 Implement the logic to vote for the dogs. -->
+
+
+<!-- ------------------------------------------
+ADDITIONAL FEATURES CREATED BY ME
+------------------------------------------ -->
+
+
+<!-- I've added several enhancements beyond the original requirements, such as:
+
+-Breed filtering (in addition to name filtering)
+-Dog counter
+-Remove individual dogs
+-Voting results submission with JSON download
+-Comprehensive error handling and user feedback -->
