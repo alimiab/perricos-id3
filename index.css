@@ -223,3 +223,171 @@ header p {
   background: #e4f0ff;  /* Light blue background */
   border-color: #667eea;  /* Blue border */
 }
+
+/*DOG COUNTER*/
+.dog-counter {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+/*DELETE BUTTON*/
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #f5576c;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.delete-btn:hover {
+  background: #d63447;
+  transform: scale(1.1);
+}
+
+/*CARD POSITIONING FOR DELETE BUTTON*/
+.card {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;  /* Required for absolute positioning of delete button */
+}
+
+/*BREED DISPLAY*/
+.breed {
+  color: #667eea;
+  font-size: 0.95em;
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+/*FILTERS HEADER*/
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filters-header h2 {
+  margin: 0;
+}
+
+/*SECONDARY BUTTON*/
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+  border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+/*SUCCESS BUTTON*/
+.btn-success {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(86, 171, 47, 0.4);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(86, 171, 47, 0.6);
+}
+
+/*INFO BUTTON*/
+.btn-info {
+  background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(33, 147, 176, 0.4);
+}
+
+.btn-info:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 147, 176, 0.6);
+}
+
+/*VOTING FORM SECTION*/
+.voting-form-section {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 25px;
+  border-radius: 15px;
+  margin-top: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.voting-form-section h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+}
+
+.voting-form-section > button {
+  margin-bottom: 20px;
+}
+
+/*RESULTS TABLE*/
+.results-table {
+  text-align: left;
+  padding: 20px;
+}
+
+.results-table h3 {
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.results-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.results-table th {
+  background-color: #667eea;
+  color: white;
+  font-weight: 600;
+}
+
+.results-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.results-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+.results-table button {
+  margin: 0 auto;
+  display: block;
+}

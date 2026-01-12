@@ -7,6 +7,10 @@ import { getRandomDogImage } from './api.js';
 const dogList = document.querySelector('#dog-list');
 // Get the HTML element where we will display the filter buttons
 const filtersDiv = document.querySelector('#filters');
+// Get the dog counter element
+const dogCountEl = document.querySelector('#dog-count');
+// Get the voting results element
+const votingResultsDiv = document.querySelector('#voting-results');
 
 //DATA
 // Array of dog names - we will randomly pick from this list when adding dogs
@@ -26,8 +30,8 @@ let selectedName = null;
 async function addPerricos(amount) {
   // Loop the number of times specified (1 or 5 times)
   for (let i = 0; i < amount; i++) {
-    // Get a random dog image URL from the API
-    const image = await getRandomDogImage();
+    // Get a random dog image URL and breed from the API
+    const dogData = await getRandomDogImage();
     // Pick a random name from the names array
     const name = names[Math.floor(Math.random() * names.length)];
 
@@ -35,7 +39,8 @@ async function addPerricos(amount) {
     dogs.push({
       id: crypto.randomUUID(),        // Unique ID for this dog
       name,                           // The dog's name
-      image,                          // The dog's image URL
+      image: dogData.image,           // The dog's image URL
+      breed: dogData.breed,           // The dog's breed
       votes: 0,                       // Start with 0 votes
     });
   }
@@ -44,15 +49,74 @@ async function addPerricos(amount) {
 }
 
 /**
- * Remove all dogs and reset the filter
+ * Remove a specific dog by ID
+ * @param {string} dogId - The ID of the dog to remove
  */
-function resetDogs() {
-  // Clear the dogs array
-  dogs = [];
-  // Clear the selected filter
+function removeDog(dogId) {
+  // Find the index of the dog with the given ID
+  const index = dogs.findIndex(d => d.id === dogId);
+  // If found, remove it from the array
+  if (index !== -1) {
+    dogs.splice(index, 1);
+    render();
+  }
+}
+
+/**
+ * Clear the name filter
+ */
+function clearFilters() {
   selectedName = null;
-  // Update the display
   render();
+}
+
+/**
+ * Submit voting results as a form
+ */
+function submitVotingResults() {
+  // Check if there are any dogs
+  if (dogs.length === 0) {
+    alert('No dogs to submit votes for!');
+    return;
+  }
+
+  // Create a summary of voting results
+  const results = dogs.map(dog => ({
+    name: dog.name,
+    breed: dog.breed,
+    votes: dog.votes
+  }));
+
+  // Display the results
+  votingResultsDiv.innerHTML = `
+    <div class="results-table">
+      <h3>Voting Summary</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Dog Name</th>
+            <th>Breed</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${results.map(r => `
+            <tr>
+              <td>${r.name}</td>
+              <td>${r.breed}</td>
+              <td>${r.votes}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <button id="download-results" class="btn btn-info">Download Results</button>
+    </div>
+  `;
+
+  // Add download functionality
+  document.querySelector('#download-results').onclick = () => {
+    downloadResults(results);
+  };
 }
 
 //RENDERING FUNCTIONS
@@ -63,6 +127,7 @@ function resetDogs() {
 function render() {
   renderFilters();  // Update the filter buttons
   renderDogs();     // Update the dog cards
+  updateDogCounter();  // Update the dog counter
 }
 
 /**
@@ -90,10 +155,12 @@ function renderDogs() {
     const card = document.createElement('div');
     card.className = 'card';
 
-    // Fill the card with HTML (image, name, votes, buttons)
+    // Fill the card with HTML (image, name, breed, votes, buttons)
     card.innerHTML = `
+      <button class="delete-btn" title="Remove this dog">✕</button>
       <img src="${dog.image}" alt="${dog.name}" />
       <h3>${dog.name}</h3>
+      <p class="breed">Breed: ${dog.breed}</p>
       <div class="votes">👍 ${dog.votes} votes</div>
       <div class="vote-buttons">
         <button class="vote-btn like-btn" title="Like this dog">👍</button>
@@ -101,8 +168,14 @@ function renderDogs() {
       </div>
     `;
 
-    // Get the like and dislike buttons from the card
+    // Get all buttons from the card
+    const deleteBtn = card.querySelector('.delete-btn');
     const [likeBtn, dislikeBtn] = card.querySelectorAll('.vote-btn');
+
+    // Set up the delete button - removes the dog when clicked
+    deleteBtn.onclick = () => {
+      removeDog(dog.id);
+    };
 
     // Set up the like button - increases votes when clicked
     likeBtn.onclick = () => {
@@ -119,6 +192,18 @@ function renderDogs() {
     // Add the card to the page
     dogList.appendChild(card);
   });
+}
+
+/**
+ * Update the dog counter display
+ */
+function updateDogCounter() {
+  // Get the number of filtered dogs (respecting any name filter)
+  const filteredDogs = selectedName
+    ? dogs.filter(d => d.name === selectedName)
+    : dogs;
+  // Update the counter element
+  dogCountEl.textContent = filteredDogs.length;
 }
 
 /**
@@ -167,7 +252,45 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#reset').onclick = () => {
     // Ask the user to confirm before deleting all dogs
     if (confirm('Are you sure you want to reset all dogs?')) {
-      resetDogs();  // Delete all dogs and clear filters
+      // Clear the dogs array
+      dogs = [];
+      // Clear the selected filter
+      selectedName = null;
+      // Clear voting results
+      votingResultsDiv.innerHTML = '';
+      // Update the display
+      render();
     }
   };
+
+  // When "Clear Filters" button is clicked, clear the name filter
+  document.querySelector('#clear-filters').onclick = () => {
+    clearFilters();
+  };
+
+  // When "Submit Votes" button is clicked, submit the voting results
+  document.querySelector('#submit-votes').onclick = () => {
+    submitVotingResults();
+  };
 });
+
+/**
+ * Download voting results as a JSON file
+ * @param {Array} results - The voting results to download
+ */
+function downloadResults(results) {
+  // Convert results to JSON format
+  const jsonString = JSON.stringify(results, null, 2);
+  // Create a blob from the JSON string
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  // Create a download link
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  // Set the filename with the current date
+  a.download = `dog-votes-${new Date().toISOString().split('T')[0]}.json`;
+  // Trigger the download
+  a.click();
+  // Clean up the URL
+  URL.revokeObjectURL(url);
+}

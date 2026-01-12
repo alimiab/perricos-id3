@@ -34,14 +34,30 @@
 
       <!-- FILTER SECTION - Shows buttons to filter dogs by name -->
       <div class="filters-section">
-        <h2>Filter by Name</h2>
+        <div class="filters-header">
+          <h2>Filter by Name</h2>
+          <!-- Button to clear all filters -->
+          <button id="clear-filters" class="btn btn-secondary">Clear Filters</button>
+        </div>
         <!-- This div will be filled by JavaScript with filter buttons for each dog name -->
         <div id="filters" class="filters"></div>
+      </div>
+
+      <!-- DOG COUNTER - Shows how many dogs are displayed -->
+      <div class="dog-counter">
+        <p>Dogs: <span id="dog-count">0</span></p>
       </div>
 
       <!-- DOG LIST SECTION - Shows all the dog cards -->
       <!-- This div will be filled by JavaScript with dog cards -->
       <div id="dog-list" class="dog-list"></div>
+
+      <!-- VOTING RESULTS FORM - Submit voting data -->
+      <div class="voting-form-section">
+        <h2>Voting Results</h2>
+        <button id="submit-votes" class="btn btn-success">Submit Voting Results</button>
+        <div id="voting-results"></div>
+      </div>
     </div>
 
     <!-- Load the main JavaScript file as a module -->
