@@ -1,86 +1,97 @@
-/* CSS styles for the dog voting app */
+/* ===== GLOBAL STYLES ===== */
+/* Remove default margins and padding from all elements */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box;  /* Include padding and border in width/height calculations */
 }
 
+/* ===== BODY AND GENERAL PAGE STYLES ===== */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  /* Purple gradient background */
   text-align: center;
-  min-height: 100vh;
+  min-height: 100vh;  /* Make the body at least the full height of the screen */
   padding: 20px;
 }
 
+/* ===== HEADER SECTION ===== */
 header {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.95);  /* Semi-transparent white background */
   padding: 30px 20px;
-  border-radius: 15px;
+  border-radius: 15px;  /* Rounded corners */
   margin-bottom: 30px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);  /* Drop shadow */
 }
 
 h1 {
-  font-size: 2.5em;
-  color: #333;
+  font-size: 2.5em;  /* Large title */
+  color: #333;  /* Dark gray text */
   margin-bottom: 10px;
 }
 
 header p {
-  color: #666;
+  color: #666;  /* Medium gray text */
   font-size: 1.1em;
 }
 
+/* ===== CONTAINER ===== */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1200px;  /* Limit container width */
+  margin: 0 auto;  /* Center the container */
 }
 
+/* ===== CONTROL BUTTONS SECTION ===== */
 .controls {
   margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  display: flex;  /* Arrange buttons horizontally */
+  justify-content: center;  /* Center buttons */
+  gap: 10px;  /* Space between buttons */
+  flex-wrap: wrap;  /* Wrap buttons to next line on small screens */
 }
 
+/* ===== BUTTON STYLES ===== */
 .btn {
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 8px;  /* Slightly rounded corners */
   border: none;
   cursor: pointer;
   font-size: 1em;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-weight: 600;  /* Bold text */
+  transition: all 0.3s ease;  /* Smooth animation on hover */
+  text-transform: uppercase;  /* Make text uppercase */
+  letter-spacing: 0.5px;  /* Add space between letters */
 }
 
+/* Primary button style (blue/purple gradient) */
 .btn-primary {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* Primary button hover effect */
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  transform: translateY(-2px);  /* Move button up slightly */
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);  /* Increase shadow */
 }
 
+/* Danger button style (red/pink gradient) */
 .btn-danger {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
 }
 
+/* Danger button hover effect */
 .btn-danger:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
 }
 
+/* ===== FILTER SECTION ===== */
 .filters-section {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.95);  /* Semi-transparent white box */
   padding: 25px;
   border-radius: 15px;
   margin-bottom: 30px;
@@ -93,107 +104,122 @@ header p {
   font-size: 1.3em;
 }
 
+/* Container for filter buttons */
 .filters {
-  display: flex;
+  display: flex;  /* Arrange buttons horizontally */
   justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 10px;  /* Space between buttons */
+  flex-wrap: wrap;  /* Wrap buttons to next line on small screens */
 }
 
+/* ===== FILTER BUTTON STYLES ===== */
 .filter-btn {
   padding: 10px 18px;
-  border-radius: 25px;
+  border-radius: 25px;  /* Pill-shaped button */
   border: 2px solid #667eea;
   cursor: pointer;
   background: white;
   color: #667eea;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease;  /* Smooth animation on state change */
   font-size: 0.95em;
 }
 
+/* Filter button hover effect */
 .filter-btn:hover {
-  background: #f0f0f0;
-  transform: scale(1.05);
+  background: #f0f0f0;  /* Light gray background */
+  transform: scale(1.05);  /* Make button slightly larger */
 }
 
+/* Selected filter button style */
 .filter-btn.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  /* Blue/purple gradient */
   color: white;
   border-color: transparent;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
+/* ===== DOG LIST (GRID) ===== */
 .dog-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  /* Responsive grid */
+  gap: 20px;  /* Space between cards */
   padding: 20px 0;
 }
 
+/* ===== DOG CARD STYLES ===== */
 .card {
   background: white;
   border-radius: 15px;
   padding: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease;  /* Smooth animation on hover */
 }
 
+/* Card hover effect */
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);  /* Move card up slightly */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);  /* Increase shadow */
 }
 
+/* Dog image in the card */
 .card img {
-  width: 100%;
+  width: 100%;  /* Fill the card width */
   height: 200px;
-  object-fit: cover;
+  object-fit: cover;  /* Crop image to fit dimensions */
   border-radius: 12px;
   margin-bottom: 12px;
 }
 
+/* Dog name heading in the card */
 .card h3 {
   color: #333;
   margin-bottom: 10px;
   font-size: 1.3em;
 }
 
+/* Vote count display */
 .votes {
   font-size: 1.2em;
   margin: 12px 0;
-  color: #764ba2;
+  color: #764ba2;  /* Purple color */
   font-weight: 600;
 }
 
+/* Container for vote buttons */
 .vote-buttons {
   display: flex;
-  gap: 8px;
+  gap: 8px;  /* Space between buttons */
   justify-content: center;
   margin-top: 12px;
 }
 
+/* ===== VOTE BUTTON STYLES ===== */
 .vote-btn {
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.2em;
-  transition: all 0.2s ease;
-  background: #f5f5f5;
-  border: 2px solid #ddd;
+  transition: all 0.2s ease;  /* Smooth animation */
+  background: #f5f5f5;  /* Light gray background */
+  border: 2px solid #ddd;  /* Light gray border */
 }
 
+/* Vote button hover effect */
 .vote-btn:hover {
-  transform: scale(1.1);
-  background: #e8e8e8;
+  transform: scale(1.1);  /* Make button slightly larger */
+  background: #e8e8e8;  /* Slightly darker gray */
 }
 
+/* Like button hover effect (red/pink color) */
 .vote-btn.like-btn:hover {
-  background: #ffe4e4;
-  border-color: #f5576c;
+  background: #ffe4e4;  /* Light red background */
+  border-color: #f5576c;  /* Red border */
 }
 
+/* Dislike button hover effect (blue color) */
 .vote-btn.dislike-btn:hover {
-  background: #e4f0ff;
-  border-color: #667eea;
+  background: #e4f0ff;  /* Light blue background */
+  border-color: #667eea;  /* Blue border */
 }

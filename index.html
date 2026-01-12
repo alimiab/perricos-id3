@@ -2,35 +2,49 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Character encoding for the page -->
     <meta charset="UTF-8" />
+    <!-- Make the page responsive on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Load the api.js file (though it's mainly used via the module import in index.js) -->
     <script src="./api.js"></script>
+    <!-- Title shown in the browser tab -->
     <title>Vote for Dogs</title>
+    <!-- Link to the CSS file that styles the page -->
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <!-- Main title -->
+    <!-- HEADER SECTION - Shows the title and description -->
     <header>
       <h1>🐕 Vote for Dogs</h1>
       <p>Vote for your favorite dogs!</p>
     </header>
 
-    <!-- Buttons -->
+    <!-- MAIN CONTAINER -->
     <div class="container">
+      <!-- CONTROL BUTTONS - Add dogs or reset the app -->
       <div class="controls">
+        <!-- Button to add 1 dog -->
         <button id="add-1" class="btn btn-primary">Add 1 Dog</button>
+        <!-- Button to add 5 dogs -->
         <button id="add-5" class="btn btn-primary">Add 5 Dogs</button>
+        <!-- Button to reset and delete all dogs -->
         <button id="reset" class="btn btn-danger">Reset All</button>
       </div>
 
+      <!-- FILTER SECTION - Shows buttons to filter dogs by name -->
       <div class="filters-section">
         <h2>Filter by Name</h2>
+        <!-- This div will be filled by JavaScript with filter buttons for each dog name -->
         <div id="filters" class="filters"></div>
       </div>
 
+      <!-- DOG LIST SECTION - Shows all the dog cards -->
+      <!-- This div will be filled by JavaScript with dog cards -->
       <div id="dog-list" class="dog-list"></div>
     </div>
 
+    <!-- Load the main JavaScript file as a module -->
     <script type="module" src="./index.js"></script>
   </body>
 </html>
