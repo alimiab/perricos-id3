@@ -21,7 +21,8 @@ let dogs = [];
 // Variable to track which dog name is currently selected for filtering (null = no filter)
 let selectedName = null; // Deprecated, use selectedNames
 // Variable to track which dog breed is currently selected for filtering (null = no filter)
-let selectedBreed = null;
+let selectedBreed = null; // Deprecated, use selectedBreeds
+let selectedBreeds = [];
 // Variable to track current filter type (name or breed)
 let filterType = 'name';
 // Initialize selectedNames as an empty array to track selected names
@@ -147,8 +148,8 @@ function renderDogs() {
   let filteredDogs = dogs;
   if (filterType === 'name' && selectedNames.length > 0) {
     filteredDogs = dogs.filter(d => selectedNames.includes(d.name));
-  } else if (filterType === 'breed' && selectedBreed) {
-    filteredDogs = dogs.filter(d => d.breed === selectedBreed);
+  } else if (filterType === 'breed' && selectedBreeds.length > 0) {
+    filteredDogs = dogs.filter(d => selectedBreeds.includes(d.breed));
   }
   // If breed search is active, filter by breed search term (case-insensitive, partial match)
   if (breedSearchTerm.trim() !== '') {
@@ -278,13 +279,17 @@ function renderFilters() {
       btn.className = 'filter-btn';  // Give it the filter button styling
 
       // If this breed is currently selected, add the 'selected' class (for styling)
-      if (selectedBreed === breed) {
+      if (selectedBreeds.includes(breed)) {
         btn.classList.add('selected');
       }
 
-      // When the button is clicked, toggle the filter for this breed
+      // When the button is clicked, toggle selection for this breed
       btn.onclick = () => {
-        selectedBreed = selectedBreed === breed ? null : breed;
+        if (selectedBreeds.includes(breed)) {
+          selectedBreeds = selectedBreeds.filter(b => b !== breed);
+        } else {
+          selectedBreeds = [...selectedBreeds, breed];
+        }
         render();
       };
 
