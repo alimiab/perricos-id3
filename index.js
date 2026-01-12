@@ -24,6 +24,8 @@ let selectedName = null;
 let selectedBreed = null;
 // Variable to track current filter type (name or breed)
 let filterType = 'name';
+// Initialize selectedNames as an empty array to track selected names
+let selectedNames = [];
 
 //FUNCTIONS TO ADD AND MANAGE DOGS
 
@@ -230,21 +232,27 @@ function renderFilters() {
   if (filterType === 'name') {
     // Show filter buttons for dog names
     names.forEach(name => {
+      // Count how many dogs have this name
+      const count = dogs.filter(d => d.name === name).length;
+
       // Create a new button element
       const btn = document.createElement('button');
-      btn.textContent = name;           // Set the button text to the dog name
-      btn.className = 'filter-btn';     // Give it the filter button styling
+      btn.textContent = `${name} (${count})`;  // Show name and count
+      btn.className = 'filter-btn';  // Give it the filter button styling
 
       // If this name is currently selected, add the 'selected' class (for styling)
-      if (selectedName === name) {
+      if (selectedNames.includes(name)) {
         btn.classList.add('selected');
       }
 
       // When the button is clicked, toggle the filter for this name
       btn.onclick = () => {
-        // If this name is already selected, deselect it
-        // If it's not selected, select it
-        selectedName = selectedName === name ? null : name;
+        // Toggle selection
+        if (selectedNames.includes(name)) {
+          selectedNames = selectedNames.filter(n => n !== name);
+        } else {
+          selectedNames.push(name);
+        }
         // Refresh the display
         render();
       };
@@ -255,13 +263,12 @@ function renderFilters() {
   } else if (filterType === 'breed') {
     // Get all unique breeds from the dogs
     const breeds = [...new Set(dogs.map(d => d.breed))];
-    
     // Show filter buttons for dog breeds
     breeds.forEach(breed => {
       // Create a new button element
       const btn = document.createElement('button');
-      btn.textContent = breed;          // Set the button text to the dog breed
-      btn.className = 'filter-btn';     // Give it the filter button styling
+      btn.textContent = breed;  // Set the button text to the dog breed
+      btn.className = 'filter-btn';  // Give it the filter button styling
 
       // If this breed is currently selected, add the 'selected' class (for styling)
       if (selectedBreed === breed) {
@@ -270,10 +277,7 @@ function renderFilters() {
 
       // When the button is clicked, toggle the filter for this breed
       btn.onclick = () => {
-        // If this breed is already selected, deselect it
-        // If it's not selected, select it
         selectedBreed = selectedBreed === breed ? null : breed;
-        // Refresh the display
         render();
       };
 
