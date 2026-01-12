@@ -1,4 +1,4 @@
-// file for API calls
+// API calls for fetching random dog images
 async function getRandomDogImage() {
   const url = 'https://dog.ceo/api/breeds/image/random';
   try {
