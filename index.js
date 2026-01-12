@@ -68,17 +68,13 @@ function removeDog(dogId) {
   }
 }
 
-/**
- * Clear the name filter
- */
+//Clear the name filter
 function clearFilters() {
   selectedName = null;
   render();
 }
 
-/**
- * Submit voting results as a form
- */
+//Submit voting results as a form
 function submitVotingResults() {
   // Check if there are any dogs
   if (dogs.length === 0) {
@@ -127,18 +123,14 @@ function submitVotingResults() {
 
 //RENDERING FUNCTIONS
 
-/**
- * Update the entire page (both filters and dog list)
- */
+//Update the entire page (both filters and dog list)
 function render() {
   renderFilters();  // Update the filter buttons
   renderDogs();     // Update the dog cards
   updateDogCounter();  // Update the dog counter
 }
 
-/**
- * Display all the dog cards on the page
- */
+//Display all the dog cards on the page
 function renderDogs() {
   // Clear the dog list (remove all old cards)
   dogList.innerHTML = '';
@@ -205,9 +197,7 @@ function renderDogs() {
   });
 }
 
-/**
- * Update the dog counter display
- */
+//Update the dog counter display
 function updateDogCounter() {
   // Get the number of filtered dogs (respecting any active filter)
   let filteredDogs = dogs;
@@ -222,9 +212,7 @@ function updateDogCounter() {
   dogCountEl.textContent = filteredDogs.length;
 }
 
-/**
- * Display filter buttons for each dog name or breed
- */
+//Display filter buttons for each dog name or breed
 function renderFilters() {
   // Clear the filters area (remove old buttons)
   filtersDiv.innerHTML = '';
