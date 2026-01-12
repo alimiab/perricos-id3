@@ -35,20 +35,24 @@ let selectedNames = [];
  */
 async function addPerricos(amount) {
   // This function is async, so it returns a Promise automatically.
-  // 'await' pauses the loop until getRandomDogImage() Promise resolves.
+  // Use Promise.all to fetch all dog images in parallel, not one by one.
+  const dogPromises = [];
   for (let i = 0; i < amount; i++) {
-    // Call an async function that returns a Promise for a random dog image and breed
-    const dogData = await getRandomDogImage();
-    // Pick a random name from the names array
+    // Each call returns a Promise
+    dogPromises.push(getRandomDogImage());
+  }
+  // Wait for all Promises to resolve
+  const dogDatas = await Promise.all(dogPromises);
+  // Add each dog to the array
+  for (let i = 0; i < dogDatas.length; i++) {
+    const dogData = dogDatas[i];
     const name = names[Math.floor(Math.random() * names.length)];
-
-    // Add the new dog to the dogs array with initial data
     dogs.push({
-      id: crypto.randomUUID(),        // Unique ID for this dog
-      name,                           // The dog's name
-      image: dogData.image,           // The dog's image URL
-      breed: dogData.breed,           // The dog's breed
-      votes: 0,                       // Start with 0 votes
+      id: crypto.randomUUID(),
+      name,
+      image: dogData.image,
+      breed: dogData.breed,
+      votes: 0,
     });
   }
   // After all Promises resolve, update the display
