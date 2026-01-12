@@ -112,10 +112,12 @@ function renderFilters() {
 }
 
 // Event listeners for buttons
-document.querySelector('#add-1').onclick = () => addPerricos(1);
-document.querySelector('#add-5').onclick = () => addPerricos(5);
-document.querySelector('#reset').onclick = () => {
-  if (confirm('Are you sure you want to reset all dogs?')) {
-    resetDogs();
-  }
-};
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#add-1').onclick = () => addPerricos(1);
+  document.querySelector('#add-5').onclick = () => addPerricos(5);
+  document.querySelector('#reset').onclick = () => {
+    if (confirm('Are you sure you want to reset all dogs?')) {
+      resetDogs();
+    }
+  };
+});
