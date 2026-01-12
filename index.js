@@ -307,12 +307,42 @@ function renderFilters() {
 document.addEventListener('DOMContentLoaded', () => {
     // Breed search bar event listener
     const breedSearchInput = document.querySelector('#breed-search-input');
-    if (breedSearchInput) {
-      breedSearchInput.addEventListener('input', (event) => {
-        breedSearchTerm = event.target.value;
-        render();
-      });
-    }
+      // Breed search bar event listener and suggestions
+      const breedSuggestionsDiv = document.getElementById('breed-suggestions');
+      function showBreedSuggestions(value) {
+        breedSuggestionsDiv.innerHTML = '';
+        if (!value) return;
+        // Get all unique breeds
+        const breeds = [...new Set(dogs.map(d => d.breed))].sort((a, b) => a.localeCompare(b));
+        const matches = breeds.filter(breed => breed.toLowerCase().includes(value.toLowerCase()));
+        if (matches.length === 0) return;
+        const list = document.createElement('ul');
+        list.className = 'breed-suggestions-list';
+        list.style.width = breedSearchInput.offsetWidth + 'px';
+        matches.forEach(breed => {
+          const item = document.createElement('li');
+          item.textContent = breed;
+          item.className = 'breed-suggestion-item';
+          item.onmousedown = () => {
+            breedSearchInput.value = breed;
+            breedSearchTerm = breed;
+            breedSuggestionsDiv.innerHTML = '';
+            render();
+          };
+          list.appendChild(item);
+        });
+        breedSuggestionsDiv.appendChild(list);
+      }
+      if (breedSearchInput) {
+        breedSearchInput.addEventListener('input', (event) => {
+          breedSearchTerm = event.target.value;
+          showBreedSuggestions(event.target.value);
+          render();
+        });
+        breedSearchInput.addEventListener('blur', () => {
+          setTimeout(() => { breedSuggestionsDiv.innerHTML = ''; }, 100);
+        });
+      }
   // Helper to disable/enable a button during async operation
   // Disables the button before running the async function, then re-enables it after
   function handleAsyncButton(selector, asyncFn) {

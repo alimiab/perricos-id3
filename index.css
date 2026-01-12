@@ -1,3 +1,21 @@
+/* Breed suggestions dropdown styles */
+.breed-suggestions-list {
+  position: absolute;
+  background: white;
+  border: 1px solid #ef4444;
+  border-radius: 6px;
+  margin: 2px 0 0 0;
+  padding: 0;
+  list-style: none;
+  z-index: 100;
+}
+.breed-suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+.breed-suggestion-item:hover {
+  background: #fee2e2;
+}
 /*GLOBAL STYLES*/
 /* Remove default margins and padding from all elements */
 * {
