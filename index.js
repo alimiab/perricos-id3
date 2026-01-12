@@ -235,6 +235,11 @@ function renderFilters() {
       // Count how many dogs have this name
       const count = dogs.filter(d => d.name === name).length;
 
+      // Skip filters with zero count
+      if (count === 0) {
+        return;
+      }
+
       // Create a new button element
       const btn = document.createElement('button');
       btn.textContent = `${name} (${count})`;  // Show name and count
@@ -265,9 +270,17 @@ function renderFilters() {
     const breeds = [...new Set(dogs.map(d => d.breed))];
     // Show filter buttons for dog breeds
     breeds.forEach(breed => {
+      // Count how many dogs have this breed
+      const count = dogs.filter(d => d.breed === breed).length;
+
+      // Skip filters with zero count
+      if (count === 0) {
+        return;
+      }
+
       // Create a new button element
       const btn = document.createElement('button');
-      btn.textContent = breed;  // Set the button text to the dog breed
+      btn.textContent = `${breed} (${count})`;  // Set the button text to the dog breed with count
       btn.className = 'filter-btn';  // Give it the filter button styling
 
       // If this breed is currently selected, add the 'selected' class (for styling)
