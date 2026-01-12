@@ -32,14 +32,20 @@
         <button id="reset" class="btn btn-danger">Reset All</button>
       </div>
 
-      <!-- FILTER SECTION - Shows buttons to filter dogs by name -->
+      <!-- FILTER SECTION - Shows buttons to filter dogs by name or breed -->
       <div class="filters-section">
         <div class="filters-header">
-          <h2>Filter by Name</h2>
+          <div class="filter-type-selector">
+            <label for="filter-type">Filter by:</label>
+            <select id="filter-type">
+              <option value="name">Name</option>
+              <option value="breed">Breed</option>
+            </select>
+          </div>
           <!-- Button to clear all filters -->
           <button id="clear-filters" class="btn btn-secondary">Clear Filters</button>
         </div>
-        <!-- This div will be filled by JavaScript with filter buttons for each dog name -->
+        <!-- This div will be filled by JavaScript with filter buttons for each dog name or breed -->
         <div id="filters" class="filters"></div>
       </div>
 

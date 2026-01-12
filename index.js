@@ -20,6 +20,10 @@ const names = ['Coco', 'Rocky', 'Luna', 'Lola', 'Daisy', 'Max'];
 let dogs = [];
 // Variable to track which dog name is currently selected for filtering (null = no filter)
 let selectedName = null;
+// Variable to track which dog breed is currently selected for filtering (null = no filter)
+let selectedBreed = null;
+// Variable to track current filter type (name or breed)
+let filterType = 'name';
 
 //FUNCTIONS TO ADD AND MANAGE DOGS
 
@@ -137,11 +141,16 @@ function renderDogs() {
   // Clear the dog list (remove all old cards)
   dogList.innerHTML = '';
 
-  // If a name filter is selected, show only dogs with that name
-  // Otherwise, show all dogs
-  const filteredDogs = selectedName
-    ? dogs.filter(d => d.name === selectedName)
-    : dogs;
+  // Filter dogs based on the current filter type and selection
+  let filteredDogs = dogs;
+  
+  if (filterType === 'name' && selectedName) {
+    // Filter by name
+    filteredDogs = dogs.filter(d => d.name === selectedName);
+  } else if (filterType === 'breed' && selectedBreed) {
+    // Filter by breed
+    filteredDogs = dogs.filter(d => d.breed === selectedBreed);
+  }
 
   // Show a message if there are no dogs to display
   if (filteredDogs.length === 0) {
@@ -198,45 +207,80 @@ function renderDogs() {
  * Update the dog counter display
  */
 function updateDogCounter() {
-  // Get the number of filtered dogs (respecting any name filter)
-  const filteredDogs = selectedName
-    ? dogs.filter(d => d.name === selectedName)
-    : dogs;
+  // Get the number of filtered dogs (respecting any active filter)
+  let filteredDogs = dogs;
+  
+  if (filterType === 'name' && selectedName) {
+    filteredDogs = dogs.filter(d => d.name === selectedName);
+  } else if (filterType === 'breed' && selectedBreed) {
+    filteredDogs = dogs.filter(d => d.breed === selectedBreed);
+  }
+  
   // Update the counter element
   dogCountEl.textContent = filteredDogs.length;
 }
 
 /**
- * Display filter buttons for each dog name
+ * Display filter buttons for each dog name or breed
  */
 function renderFilters() {
   // Clear the filters area (remove old buttons)
   filtersDiv.innerHTML = '';
 
-  // Loop through each name and create a filter button
-  names.forEach(name => {
-    // Create a new button element
-    const btn = document.createElement('button');
-    btn.textContent = name;           // Set the button text to the dog name
-    btn.className = 'filter-btn';     // Give it the filter button styling
+  if (filterType === 'name') {
+    // Show filter buttons for dog names
+    names.forEach(name => {
+      // Create a new button element
+      const btn = document.createElement('button');
+      btn.textContent = name;           // Set the button text to the dog name
+      btn.className = 'filter-btn';     // Give it the filter button styling
 
-    // If this name is currently selected, add the 'selected' class (for styling)
-    if (selectedName === name) {
-      btn.classList.add('selected');
-    }
+      // If this name is currently selected, add the 'selected' class (for styling)
+      if (selectedName === name) {
+        btn.classList.add('selected');
+      }
 
-    // When the button is clicked, toggle the filter for this name
-    btn.onclick = () => {
-      // If this name is already selected, deselect it
-      // If it's not selected, select it
-      selectedName = selectedName === name ? null : name;
-      // Refresh the display
-      render();
-    };
+      // When the button is clicked, toggle the filter for this name
+      btn.onclick = () => {
+        // If this name is already selected, deselect it
+        // If it's not selected, select it
+        selectedName = selectedName === name ? null : name;
+        // Refresh the display
+        render();
+      };
 
-    // Add the button to the page
-    filtersDiv.appendChild(btn);
-  });
+      // Add the button to the page
+      filtersDiv.appendChild(btn);
+    });
+  } else if (filterType === 'breed') {
+    // Get all unique breeds from the dogs
+    const breeds = [...new Set(dogs.map(d => d.breed))];
+    
+    // Show filter buttons for dog breeds
+    breeds.forEach(breed => {
+      // Create a new button element
+      const btn = document.createElement('button');
+      btn.textContent = breed;          // Set the button text to the dog breed
+      btn.className = 'filter-btn';     // Give it the filter button styling
+
+      // If this breed is currently selected, add the 'selected' class (for styling)
+      if (selectedBreed === breed) {
+        btn.classList.add('selected');
+      }
+
+      // When the button is clicked, toggle the filter for this breed
+      btn.onclick = () => {
+        // If this breed is already selected, deselect it
+        // If it's not selected, select it
+        selectedBreed = selectedBreed === breed ? null : breed;
+        // Refresh the display
+        render();
+      };
+
+      // Add the button to the page
+      filtersDiv.appendChild(btn);
+    });
+  }
 }
 
 //EVENT LISTENERS
@@ -256,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dogs = [];
       // Clear the selected filter
       selectedName = null;
+      selectedBreed = null;
       // Clear voting results
       votingResultsDiv.innerHTML = '';
       // Update the display
@@ -263,14 +308,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // When "Clear Filters" button is clicked, clear the name filter
+  // When "Clear Filters" button is clicked, clear the name or breed filter
   document.querySelector('#clear-filters').onclick = () => {
-    clearFilters();
+    selectedName = null;
+    selectedBreed = null;
+    render();
   };
 
   // When "Submit Votes" button is clicked, submit the voting results
   document.querySelector('#submit-votes').onclick = () => {
     submitVotingResults();
+  };
+
+  // When filter type dropdown changes, update the filters
+  document.querySelector('#filter-type').onchange = (event) => {
+    filterType = event.target.value;  // Update the filter type (name or breed)
+    selectedName = null;  // Clear name filter
+    selectedBreed = null;  // Clear breed filter
+    render();  // Re-render with new filter type
   };
 });
 
