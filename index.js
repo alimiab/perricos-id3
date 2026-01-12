@@ -19,7 +19,7 @@ const names = ['Coco', 'Rocky', 'Luna', 'Lola', 'Daisy', 'Max'];
 // Empty array to store all the dogs (each dog has: id, name, image, votes)
 let dogs = [];
 // Variable to track which dog name is currently selected for filtering (null = no filter)
-let selectedName = null;
+let selectedName = null; // Deprecated, use selectedNames
 // Variable to track which dog breed is currently selected for filtering (null = no filter)
 let selectedBreed = null;
 // Variable to track current filter type (name or breed)
@@ -145,8 +145,8 @@ function renderDogs() {
 
   // Filter dogs based on filter type, selection, and breed search
   let filteredDogs = dogs;
-  if (filterType === 'name' && selectedName) {
-    filteredDogs = dogs.filter(d => d.name === selectedName);
+  if (filterType === 'name' && selectedNames.length > 0) {
+    filteredDogs = dogs.filter(d => selectedNames.includes(d.name));
   } else if (filterType === 'breed' && selectedBreed) {
     filteredDogs = dogs.filter(d => d.breed === selectedBreed);
   }
@@ -246,15 +246,13 @@ function renderFilters() {
         btn.classList.add('selected');
       }
 
-      // When the button is clicked, toggle the filter for this name
+      // When the button is clicked, toggle selection for this name
       btn.onclick = () => {
-        // Toggle selection
         if (selectedNames.includes(name)) {
           selectedNames = selectedNames.filter(n => n !== name);
         } else {
-          selectedNames.push(name);
+          selectedNames = [...selectedNames, name];
         }
-        // Refresh the display
         render();
       };
 
