@@ -146,10 +146,13 @@ function renderDogs() {
 
   // Filter dogs based on filter type, selection, and breed search
   let filteredDogs = dogs;
-  if (filterType === 'name' && selectedNames.length > 0) {
-    filteredDogs = dogs.filter(d => selectedNames.includes(d.name));
-  } else if (filterType === 'breed' && selectedBreeds.length > 0) {
-    filteredDogs = dogs.filter(d => selectedBreeds.includes(d.breed));
+  // Filter by both names and breeds if both are selected
+  if (selectedNames.length > 0 && selectedBreeds.length > 0) {
+    filteredDogs = filteredDogs.filter(d => selectedNames.includes(d.name) && selectedBreeds.includes(d.breed));
+  } else if (selectedNames.length > 0) {
+    filteredDogs = filteredDogs.filter(d => selectedNames.includes(d.name));
+  } else if (selectedBreeds.length > 0) {
+    filteredDogs = filteredDogs.filter(d => selectedBreeds.includes(d.breed));
   }
   // If breed search is active, filter by breed search term (case-insensitive, partial match)
   if (breedSearchTerm.trim() !== '') {
@@ -334,13 +337,16 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedName = null;
     selectedNames = [];
     selectedBreed = null;
+    selectedBreeds = [];
     votingResultsDiv.innerHTML = '';
     render();
   });
   // Clear Filters button: disables while clearing, then re-enables
   handleAsyncButton('#clear-filters', async () => {
     selectedName = null;
+    selectedNames = [];
     selectedBreed = null;
+    selectedBreeds = [];
     render();
   });
   // Submit Votes button: disables while submitting, then re-enables
