@@ -298,18 +298,16 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // When "Reset All" button is clicked, confirm and then reset
   document.querySelector('#reset').onclick = () => {
-    // Ask the user to confirm before deleting all dogs
-    if (confirm('Are you sure you want to reset all dogs?')) {
-      // Clear the dogs array
-      dogs = [];
-      // Clear the selected filter
-      selectedName = null;
-      selectedBreed = null;
-      // Clear voting results
-      votingResultsDiv.innerHTML = '';
-      // Update the display
-      render();
-    }
+    // Clear the dogs array
+    dogs = [];
+    // Clear filters and selection state
+    selectedName = null;
+    selectedNames = [];
+    selectedBreed = null;
+    // Clear voting results
+    votingResultsDiv.innerHTML = '';
+    // Update the display
+    render();
   };
 
   // When "Clear Filters" button is clicked, clear the name or breed filter
