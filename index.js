@@ -1,14 +1,14 @@
-// ===== IMPORTS =====
+// IMPORTS
 // Import the getRandomDogImage function from the api.js file
 import { getRandomDogImage } from './api.js';
 
-// ===== DOM ELEMENTS =====
+//DOM ELEMENTS
 // Get the HTML element where we will display the dog cards
 const dogList = document.querySelector('#dog-list');
 // Get the HTML element where we will display the filter buttons
 const filtersDiv = document.querySelector('#filters');
 
-// ===== DATA =====
+//DATA
 // Array of dog names - we will randomly pick from this list when adding dogs
 const names = ['Coco', 'Rocky', 'Luna', 'Lola', 'Daisy', 'Max'];
 
@@ -17,7 +17,7 @@ let dogs = [];
 // Variable to track which dog name is currently selected for filtering (null = no filter)
 let selectedName = null;
 
-// ===== FUNCTIONS TO ADD AND MANAGE DOGS =====
+//FUNCTIONS TO ADD AND MANAGE DOGS
 
 /**
  * Add a specific number of dogs to the list
@@ -55,7 +55,7 @@ function resetDogs() {
   render();
 }
 
-// ===== RENDERING FUNCTIONS =====
+//RENDERING FUNCTIONS
 
 /**
  * Update the entire page (both filters and dog list)
@@ -154,7 +154,7 @@ function renderFilters() {
   });
 }
 
-// ===== EVENT LISTENERS =====
+//EVENT LISTENERS
 // Wait for the page to fully load before setting up the buttons
 document.addEventListener('DOMContentLoaded', () => {
   // When "Add 1 Dog" button is clicked, add 1 dog
