@@ -264,8 +264,8 @@ function renderFilters() {
       filtersDiv.appendChild(btn);
     });
   } else if (filterType === 'breed') {
-    // Get all unique breeds from the dogs
-    const breeds = [...new Set(dogs.map(d => d.breed))];
+    // Get all unique breeds from the dogs and sort alphabetically
+    const breeds = [...new Set(dogs.map(d => d.breed))].sort((a, b) => a.localeCompare(b));
     // Show filter buttons for dog breeds
     breeds.forEach(breed => {
       // Count how many dogs have this breed
