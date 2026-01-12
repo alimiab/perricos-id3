@@ -42,7 +42,7 @@ I've added several enhancements beyond the original requirements, such as:
 - Breed filtering (in addition to name filtering)
 - Dog counter
 - Remove individual dogs
-- Voting results submission with JSON download
+- Voting results submission with date-stamped JSON download
 - Comprehensive error handling and user feedback
 - Filters hide when count is zero
 - Filter counts display
@@ -50,4 +50,3 @@ I've added several enhancements beyond the original requirements, such as:
 - Filter type dropdown selector
 - Clear filters button
 - Formatted voting results table
-- Date-stamped JSON download
