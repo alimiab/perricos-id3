@@ -34,7 +34,7 @@
 
       <!-- FILTER SECTION - Shows buttons to filter dogs by name or breed -->
       <div class="filters-section">
-        <div class="filters-header" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <div class="filters-header">
           <div class="filter-type-selector">
             <label for="filter-type">Filter by:</label>
             <select id="filter-type">
@@ -43,10 +43,10 @@
             </select>
           </div>
           <!-- Search bar for breed -->
-          <div class="breed-search" style="display: flex; align-items: center; gap: 6px;">
+          <div class="breed-search">
             <label for="breed-search-input">Search breed:</label>
-            <input type="text" id="breed-search-input" placeholder="Type of breed..." style="padding: 8px; border-radius: 6px; border: 1px solid #ef4444;" autocomplete="off" />
-            <div id="breed-suggestions" style="position: relative; z-index: 10;"></div>
+            <input type="text" id="breed-search-input" placeholder="Type of breed..." autocomplete="off" />
+            <div id="breed-suggestions"></div>
           </div>
           <!-- Button to clear all filters -->
           <button id="clear-filters" class="btn btn-secondary">Clear Filters</button>
