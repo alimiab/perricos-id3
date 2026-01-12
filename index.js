@@ -34,9 +34,10 @@ let selectedNames = [];
  * @param {number} amount - How many dogs to add
  */
 async function addPerricos(amount) {
-  // Loop the number of times specified (1 or 5 times)
+  // This function is async, so it returns a Promise automatically.
+  // 'await' pauses the loop until getRandomDogImage() Promise resolves.
   for (let i = 0; i < amount; i++) {
-    // Get a random dog image URL and breed from the API
+    // Call an async function that returns a Promise for a random dog image and breed
     const dogData = await getRandomDogImage();
     // Pick a random name from the names array
     const name = names[Math.floor(Math.random() * names.length)];
@@ -50,7 +51,7 @@ async function addPerricos(amount) {
       votes: 0,                       // Start with 0 votes
     });
   }
-  // Update the display after adding dogs
+  // After all Promises resolve, update the display
   render();
 }
 
@@ -175,7 +176,7 @@ function renderDogs() {
     const deleteBtn = card.querySelector('.delete-btn');
     const [likeBtn, dislikeBtn] = card.querySelectorAll('.vote-btn');
 
-    // Set up the delete button - removes the dog when clicked
+    // Set up the delete button - removes the dog when clickedW
     deleteBtn.onclick = () => {
       removeDog(dog.id);
     };
@@ -292,23 +293,24 @@ function renderFilters() {
 // Wait for the page to fully load before setting up the buttons
 document.addEventListener('DOMContentLoaded', () => {
   // Helper to disable/enable a button during async operation
+  // Disables the button before running the async function, then re-enables it after
   function handleAsyncButton(selector, asyncFn) {
     const btn = document.querySelector(selector);
     btn.onclick = async (event) => {
-      btn.disabled = true;
+      btn.disabled = true; // Disable button to prevent multiple rapid clicks
       try {
-        await asyncFn(event);
+        await asyncFn(event); // Wait for the async function (returns a Promise)
       } finally {
-        btn.disabled = false;
+        btn.disabled = false; // Re-enable button after async function completes
       }
     };
   }
 
-  // Add 1 Dog
-  handleAsyncButton('#add-1', async () => await addPerricos(1));
-  // Add 5 Dogs
+  // Add 1 Dog button: disables while adding, then re-enables
+  handleAsyncButton('#add-1', async () => await addPerricos(1)); 
+  // Add 5 Dogs button: disables while adding, then re-enables
   handleAsyncButton('#add-5', async () => await addPerricos(5));
-  // Reset All
+  // Reset All button: disables while resetting, then re-enables
   handleAsyncButton('#reset', async () => {
     dogs = [];
     selectedName = null;
@@ -317,26 +319,26 @@ document.addEventListener('DOMContentLoaded', () => {
     votingResultsDiv.innerHTML = '';
     render();
   });
-  // Clear Filters
+  // Clear Filters button: disables while clearing, then re-enables
   handleAsyncButton('#clear-filters', async () => {
     selectedName = null;
     selectedBreed = null;
     render();
   });
-  // Submit Votes
+  // Submit Votes button: disables while submitting, then re-enables
   handleAsyncButton('#submit-votes', async () => {
     submitVotingResults();
   });
-  // Filter type dropdown (disable during async if needed)
+  // Filter type dropdown: disables while changing, then re-enables
   const filterTypeSelect = document.querySelector('#filter-type');
-  filterTypeSelect.onchange = async (event) => {
+  filterTypeSelect.onchange = async (event) => { // Disable the select while processing
     filterTypeSelect.disabled = true;
     try {
       filterType = event.target.value;
       selectedName = null;
       selectedBreed = null;
       render();
-    } finally {
+    } finally { // Re-enable the select
       filterTypeSelect.disabled = false;
     }
   };
