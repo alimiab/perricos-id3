@@ -27,6 +27,9 @@ let filterType = 'name';
 // Initialize selectedNames as an empty array to track selected names
 let selectedNames = [];
 
+// Variable to track breed search input
+let breedSearchTerm = '';
+
 //FUNCTIONS TO ADD AND MANAGE DOGS
 
 /**
@@ -140,17 +143,17 @@ function renderDogs() {
   // Clear the dog list (remove all old cards)
   dogList.innerHTML = '';
 
-  // Filter dogs based on the current filter type and selection
+  // Filter dogs based on filter type, selection, and breed search
   let filteredDogs = dogs;
-  
   if (filterType === 'name' && selectedName) {
-    // Filter by name
     filteredDogs = dogs.filter(d => d.name === selectedName);
   } else if (filterType === 'breed' && selectedBreed) {
-    // Filter by breed
     filteredDogs = dogs.filter(d => d.breed === selectedBreed);
   }
-
+  // If breed search is active, filter by breed search term (case-insensitive, partial match)
+  if (breedSearchTerm.trim() !== '') {
+    filteredDogs = filteredDogs.filter(dog => dog.breed.toLowerCase().includes(breedSearchTerm.trim().toLowerCase()));
+  }
   // Show a message if there are no dogs to display
   if (filteredDogs.length === 0) {
     dogList.innerHTML = '<p style="grid-column: 1/-1; padding: 40px; color: white; font-size: 1.2em;">No dogs yet. Add some to get started!</p>';
@@ -296,6 +299,14 @@ function renderFilters() {
 //EVENT LISTENERS
 // Wait for the page to fully load before setting up the buttons
 document.addEventListener('DOMContentLoaded', () => {
+    // Breed search bar event listener
+    const breedSearchInput = document.querySelector('#breed-search-input');
+    if (breedSearchInput) {
+      breedSearchInput.addEventListener('input', (event) => {
+        breedSearchTerm = event.target.value;
+        render();
+      });
+    }
   // Helper to disable/enable a button during async operation
   // Disables the button before running the async function, then re-enables it after
   function handleAsyncButton(selector, asyncFn) {
