@@ -291,44 +291,54 @@ function renderFilters() {
 //EVENT LISTENERS
 // Wait for the page to fully load before setting up the buttons
 document.addEventListener('DOMContentLoaded', () => {
-  // When "Add 1 Dog" button is clicked, add 1 dog
-  document.querySelector('#add-1').onclick = () => addPerricos(1);
-  
-  // When "Add 5 Dogs" button is clicked, add 5 dogs
-  document.querySelector('#add-5').onclick = () => addPerricos(5);
-  
-  // When "Reset All" button is clicked, confirm and then reset
-  document.querySelector('#reset').onclick = () => {
-    // Clear the dogs array
+  // Helper to disable/enable a button during async operation
+  function handleAsyncButton(selector, asyncFn) {
+    const btn = document.querySelector(selector);
+    btn.onclick = async (event) => {
+      btn.disabled = true;
+      try {
+        await asyncFn(event);
+      } finally {
+        btn.disabled = false;
+      }
+    };
+  }
+
+  // Add 1 Dog
+  handleAsyncButton('#add-1', async () => await addPerricos(1));
+  // Add 5 Dogs
+  handleAsyncButton('#add-5', async () => await addPerricos(5));
+  // Reset All
+  handleAsyncButton('#reset', async () => {
     dogs = [];
-    // Clear filters and selection state
     selectedName = null;
     selectedNames = [];
     selectedBreed = null;
-    // Clear voting results
     votingResultsDiv.innerHTML = '';
-    // Update the display
     render();
-  };
-
-  // When "Clear Filters" button is clicked, clear the name or breed filter
-  document.querySelector('#clear-filters').onclick = () => {
+  });
+  // Clear Filters
+  handleAsyncButton('#clear-filters', async () => {
     selectedName = null;
     selectedBreed = null;
     render();
-  };
-
-  // When "Submit Votes" button is clicked, submit the voting results
-  document.querySelector('#submit-votes').onclick = () => {
+  });
+  // Submit Votes
+  handleAsyncButton('#submit-votes', async () => {
     submitVotingResults();
-  };
-
-  // When filter type dropdown changes, update the filters
-  document.querySelector('#filter-type').onchange = (event) => {
-    filterType = event.target.value;  // Update the filter type (name or breed)
-    selectedName = null;  // Clear name filter
-    selectedBreed = null;  // Clear breed filter
-    render();  // Re-render with new filter type
+  });
+  // Filter type dropdown (disable during async if needed)
+  const filterTypeSelect = document.querySelector('#filter-type');
+  filterTypeSelect.onchange = async (event) => {
+    filterTypeSelect.disabled = true;
+    try {
+      filterType = event.target.value;
+      selectedName = null;
+      selectedBreed = null;
+      render();
+    } finally {
+      filterTypeSelect.disabled = false;
+    }
   };
 });
 
