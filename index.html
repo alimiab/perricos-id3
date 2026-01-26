@@ -12,6 +12,8 @@
     <title>Vote for Dogs</title>
     <!-- Link to the CSS file that styles the page -->
     <link rel="stylesheet" href="./index.css" />
+    <!-- Swiper.js CSS for slider functionality -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   </head>
   <body>
     <!-- HEADER SECTION - Shows the title and description -->
@@ -72,9 +74,21 @@
         </div>
       </div>
 
-      <!-- DOG LIST SECTION - Shows all the dog cards -->
-      <!-- This div will be filled by JavaScript with dog cards -->
-      <div id="dog-list" class="dog-list"></div>
+      <!-- DOG LIST SECTION - Shows all the dog cards in a Swiper slider -->
+      <!-- Swiper container for sliding dog cards -->
+      <div class="swiper" id="dog-swiper">
+        <!-- This div will be filled by JavaScript with dog cards as swiper slides -->
+        <div class="swiper-wrapper" id="dog-list"></div>
+        <!-- Pagination dots -->
+        <div class="swiper-pagination"></div>
+        <!-- Navigation arrows -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+      <!-- Message shown when no dogs exist -->
+      <div id="no-dogs-message" class="no-dogs-message" style="display: none;">
+        <p>No dogs yet. Add some to get started!</p>
+      </div>
 
       <!-- VOTING RESULTS FORM - Submit voting data -->
       <div class="voting-form-section">
@@ -84,6 +98,8 @@
       </div>
     </div>
 
+    <!-- Swiper.js library for slider functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <!-- Load the main JavaScript file as a module -->
     <script type="module" src="./index.js"></script>
   </body>

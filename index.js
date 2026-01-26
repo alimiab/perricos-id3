@@ -11,6 +11,13 @@ const filtersDiv = document.querySelector('#filters');
 const dogCountEl = document.querySelector('#dog-count');
 // Get the voting results element
 const votingResultsDiv = document.querySelector('#voting-results');
+// Get the Swiper container element
+const swiperContainer = document.querySelector('#dog-swiper');
+// Get the no-dogs message element
+const noDogsMsgEl = document.querySelector('#no-dogs-message');
+
+// Swiper instance - will be initialized when dogs are rendered
+let swiperInstance = null;
 
 //DATA
 // Array of dog names - we will randomly pick from this list when adding dogs
@@ -180,6 +187,58 @@ function submitVotingResults() {
 
 //RENDERING FUNCTIONS
 
+/**
+ * Initialize or reinitialize the Swiper slider
+ * Destroys existing instance before creating new one to prevent memory leaks
+ */
+function initSwiper() {
+  // Destroy existing Swiper instance if it exists
+  if (swiperInstance) {
+    swiperInstance.destroy(true, true);
+    swiperInstance = null;
+  }
+
+  // Create new Swiper instance with configuration
+  swiperInstance = new Swiper('#dog-swiper', {
+    // Number of slides visible at once (responsive)
+    slidesPerView: 1,
+    // Space between slides in pixels
+    spaceBetween: 20,
+    // Disable infinite loop - slides stop at ends
+    loop: false,
+    // Center slides when there are fewer than slidesPerView
+    centeredSlides: false,
+    // Pagination dots configuration
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    // Navigation arrows configuration
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    // Responsive breakpoints - adjust slides per view based on screen width
+    breakpoints: {
+      // When screen width >= 320px
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      // When screen width >= 640px
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 15,
+      },
+      // When screen width >= 1024px
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      },
+    },
+  });
+}
+
 //Update the entire page (both filters and dog list)
 function render() {
   renderFilters();  // Update the filter buttons
@@ -187,7 +246,7 @@ function render() {
   updateDogCounter();  // Update the dog counter
 }
 
-//Display all the dog cards on the page
+//Display all the dog cards on the page as Swiper slides
 function renderDogs() {
   // Clear the dog list (remove all old cards)
   dogList.innerHTML = '';
@@ -206,17 +265,30 @@ function renderDogs() {
   if (breedSearchTerm.trim() !== '') {
     filteredDogs = filteredDogs.filter(dog => dog.breed.toLowerCase().includes(breedSearchTerm.trim().toLowerCase()));
   }
-  // Show a message if there are no dogs to display
+
+  // Show/hide swiper container and no-dogs message based on whether there are dogs
   if (filteredDogs.length === 0) {
-    dogList.innerHTML = '<p style="grid-column: 1/-1; padding: 40px; color: white; font-size: 1.2em;">No dogs yet. Add some to get started!</p>';
+    // Hide swiper, show no-dogs message
+    swiperContainer.style.display = 'none';
+    noDogsMsgEl.style.display = 'block';
+    // Destroy swiper instance when no dogs
+    if (swiperInstance) {
+      swiperInstance.destroy(true, true);
+      swiperInstance = null;
+    }
     return;
+  } else {
+    // Show swiper, hide no-dogs message
+    swiperContainer.style.display = 'block';
+    noDogsMsgEl.style.display = 'none';
   }
 
   // Loop through each dog and create a card for it
   filteredDogs.forEach(dog => {
-    // Create a new div element for the card
+    // Create a new div element for the card (as a swiper slide)
     const card = document.createElement('div');
-    card.className = 'card';
+    // Add both swiper-slide class (for Swiper) and card class (for styling)
+    card.className = 'swiper-slide card';
 
     // Format last interaction date
     let lastInteractionText = '';
@@ -264,9 +336,16 @@ function renderDogs() {
       renderDogs();
     };
 
-    // Add the card to the page
+    // Add the card to the swiper wrapper
     dogList.appendChild(card);
   });
+
+  // Initialize or reinitialize Swiper after cards are added
+  initSwiper();
+  // Reset to first slide when filtering or re-rendering
+  if (swiperInstance) {
+    swiperInstance.slideTo(0, 0);
+  }
 }
 
 //Update the dog counter display

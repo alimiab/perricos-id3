@@ -189,12 +189,63 @@ header p {
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
 }
 
-/*DOG LIST (GRID)*/
-.dog-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  /* Responsive grid */
-  gap: 20px;  /* Space between cards */
-  padding: 20px 0;
+/*DOG SWIPER SLIDER*/
+#dog-swiper {
+  padding: 20px 50px;  /* Room for navigation buttons on sides */
+  margin-bottom: 20px;
+}
+
+/* Swiper slide containing a card - auto height for card content */
+.swiper-slide.card {
+  height: auto;
+  box-sizing: border-box;
+}
+
+/* Swiper navigation buttons - theme colored */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #ef4444;  /* Match theme red color */
+  background: rgba(255, 255, 255, 0.9);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Swiper pagination dots - theme colored */
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.6);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ef4444;  /* Match theme red color */
+}
+
+/* No dogs message styling */
+.no-dogs-message {
+  padding: 40px;
+  text-align: center;
+}
+
+.no-dogs-message p {
+  color: white;
+  font-size: 1.2em;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
 }
 
 /*DOG CARD STYLES*/
