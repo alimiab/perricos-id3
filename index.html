@@ -35,6 +35,13 @@
       <!-- FILTER SECTION - Shows buttons to filter dogs by name or breed -->
       <div class="filters-section">
         <div class="filters-header">
+          <!-- Search bar for breed (left) -->
+          <div class="breed-search">
+            <label for="breed-search-input">Search breed:</label>
+            <input type="text" id="breed-search-input" placeholder="Type of breed..." autocomplete="off" />
+            <div id="breed-suggestions"></div>
+          </div>
+          <!-- Filter type selector (right of breed search) -->
           <div class="filter-type-selector">
             <label for="filter-type">Filter by:</label>
             <select id="filter-type">
@@ -52,6 +59,17 @@
       <!-- DOG COUNTER - Shows how many dogs are displayed -->
       <div class="dog-counter">
         <p>Dogs: <span id="dog-count">0</span></p>
+      </div>
+
+      <!-- Custom Modal for Reset Confirmation -->
+      <div id="reset-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <p>Are you sure you want to reset and delete all dogs? This action cannot be undone.</p>
+          <div class="modal-actions">
+            <button id="modal-confirm" class="btn btn-danger">Yes, Reset All</button>
+            <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
       </div>
 
       <!-- DOG LIST SECTION - Shows all the dog cards -->

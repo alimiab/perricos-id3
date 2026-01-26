@@ -19,13 +19,31 @@ const names = ['Coco', 'Rocky', 'Luna', 'Lola', 'Daisy', 'Max'];
 // Empty array to store all the dogs (each dog has: id, name, image, votes)
 let dogs = [];
 // Variable to track which dog name is currently selected for filtering (null = no filter)
-let selectedName = null;
+let selectedName = null; // Deprecated, use selectedNames
 // Variable to track which dog breed is currently selected for filtering (null = no filter)
-let selectedBreed = null;
+let selectedBreed = null; // Deprecated, use selectedBreeds
+let selectedBreeds = [];
 // Variable to track current filter type (name or breed)
 let filterType = 'name';
 // Initialize selectedNames as an empty array to track selected names
 let selectedNames = [];
+
+// Variable to track breed search input
+let breedSearchTerm = '';
+
+// Cache all breeds from Dog CEO API for suggestions
+let allBreedsList = [];
+async function fetchAllBreeds() {
+  try {
+    const response = await fetch('https://dog.ceo/api/breeds/list/all');
+    const data = await response.json();
+    if (data.status === 'success') {
+      allBreedsList = Object.keys(data.message).map(b => b.charAt(0).toUpperCase() + b.slice(1));
+    }
+  } catch (err) {
+    allBreedsList = [];
+  }
+}
 
 //FUNCTIONS TO ADD AND MANAGE DOGS
 
@@ -34,23 +52,59 @@ let selectedNames = [];
  * @param {number} amount - How many dogs to add
  */
 async function addPerricos(amount) {
-  // Loop the number of times specified (1 or 5 times)
-  for (let i = 0; i < amount; i++) {
-    // Get a random dog image URL and breed from the API
-    const dogData = await getRandomDogImage();
-    // Pick a random name from the names array
-    const name = names[Math.floor(Math.random() * names.length)];
-
-    // Add the new dog to the dogs array with initial data
-    dogs.push({
-      id: crypto.randomUUID(),        // Unique ID for this dog
-      name,                           // The dog's name
-      image: dogData.image,           // The dog's image URL
-      breed: dogData.breed,           // The dog's breed
-      votes: 0,                       // Start with 0 votes
-    });
+  // If breedSearchTerm is set, only add dogs of that breed
+  const breedTerm = breedSearchTerm.trim().toLowerCase();
+  if (breedTerm === '') {
+    // No breed search, add any breed
+    const dogPromises = [];
+    for (let i = 0; i < amount; i++) {
+      dogPromises.push(getRandomDogImage());
+    }
+    const dogDatas = await Promise.all(dogPromises);
+    for (let i = 0; i < dogDatas.length; i++) {
+      const dogData = dogDatas[i];
+      const name = names[Math.floor(Math.random() * names.length)];
+      dogs.push({
+        id: crypto.randomUUID(),
+        name,
+        image: dogData.image,
+        breed: dogData.breed,
+        votes: 0,
+      });
+    }
+  } else {
+    // Breed search is set, add only dogs of that breed using the breed API endpoint
+    // Convert breedTerm to API format (lowercase, hyphens for spaces)
+    const apiBreed = breedTerm.replace(/\s+/g, '-');
+    for (let i = 0; i < amount; i++) {
+      // Fetch from breed-specific endpoint
+      const url = `https://dog.ceo/api/breed/${apiBreed}/images/random`;
+      let dogData;
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        if (json.status === 'success') {
+          dogData = {
+            image: json.message,
+            breed: breedSearchTerm.charAt(0).toUpperCase() + breedSearchTerm.slice(1)
+          };
+        } else {
+          // fallback to random dog if breed not found
+          dogData = await getRandomDogImage();
+        }
+      } catch {
+        dogData = await getRandomDogImage();
+      }
+      const name = names[Math.floor(Math.random() * names.length)];
+      dogs.push({
+        id: crypto.randomUUID(),
+        name,
+        image: dogData.image,
+        breed: dogData.breed,
+        votes: 0,
+      });
+    }
   }
-  // Update the display after adding dogs
   render();
 }
 
@@ -135,17 +189,20 @@ function renderDogs() {
   // Clear the dog list (remove all old cards)
   dogList.innerHTML = '';
 
-  // Filter dogs based on the current filter type and selection
+  // Filter dogs based on filter type, selection, and breed search
   let filteredDogs = dogs;
-  
-  if (filterType === 'name' && selectedName) {
-    // Filter by name
-    filteredDogs = dogs.filter(d => d.name === selectedName);
-  } else if (filterType === 'breed' && selectedBreed) {
-    // Filter by breed
-    filteredDogs = dogs.filter(d => d.breed === selectedBreed);
+  // Filter by both names and breeds if both are selected
+  if (selectedNames.length > 0 && selectedBreeds.length > 0) {
+    filteredDogs = filteredDogs.filter(d => selectedNames.includes(d.name) && selectedBreeds.includes(d.breed));
+  } else if (selectedNames.length > 0) {
+    filteredDogs = filteredDogs.filter(d => selectedNames.includes(d.name));
+  } else if (selectedBreeds.length > 0) {
+    filteredDogs = filteredDogs.filter(d => selectedBreeds.includes(d.breed));
   }
-
+  // If breed search is active, filter by breed search term (case-insensitive, partial match)
+  if (breedSearchTerm.trim() !== '') {
+    filteredDogs = filteredDogs.filter(dog => dog.breed.toLowerCase().includes(breedSearchTerm.trim().toLowerCase()));
+  }
   // Show a message if there are no dogs to display
   if (filteredDogs.length === 0) {
     dogList.innerHTML = '<p style="grid-column: 1/-1; padding: 40px; color: white; font-size: 1.2em;">No dogs yet. Add some to get started!</p>';
@@ -175,7 +232,7 @@ function renderDogs() {
     const deleteBtn = card.querySelector('.delete-btn');
     const [likeBtn, dislikeBtn] = card.querySelectorAll('.vote-btn');
 
-    // Set up the delete button - removes the dog when clicked
+    // Set up the delete button - removes the dog when clickedW
     deleteBtn.onclick = () => {
       removeDog(dog.id);
     };
@@ -238,15 +295,13 @@ function renderFilters() {
         btn.classList.add('selected');
       }
 
-      // When the button is clicked, toggle the filter for this name
+      // When the button is clicked, toggle selection for this name
       btn.onclick = () => {
-        // Toggle selection
         if (selectedNames.includes(name)) {
           selectedNames = selectedNames.filter(n => n !== name);
         } else {
-          selectedNames.push(name);
+          selectedNames = [...selectedNames, name];
         }
-        // Refresh the display
         render();
       };
 
@@ -254,8 +309,8 @@ function renderFilters() {
       filtersDiv.appendChild(btn);
     });
   } else if (filterType === 'breed') {
-    // Get all unique breeds from the dogs
-    const breeds = [...new Set(dogs.map(d => d.breed))];
+    // Get all unique breeds from the dogs and sort alphabetically
+    const breeds = [...new Set(dogs.map(d => d.breed))].sort((a, b) => a.localeCompare(b));
     // Show filter buttons for dog breeds
     breeds.forEach(breed => {
       // Count how many dogs have this breed
@@ -272,13 +327,17 @@ function renderFilters() {
       btn.className = 'filter-btn';  // Give it the filter button styling
 
       // If this breed is currently selected, add the 'selected' class (for styling)
-      if (selectedBreed === breed) {
+      if (selectedBreeds.includes(breed)) {
         btn.classList.add('selected');
       }
 
-      // When the button is clicked, toggle the filter for this breed
+      // When the button is clicked, toggle selection for this breed
       btn.onclick = () => {
-        selectedBreed = selectedBreed === breed ? null : breed;
+        if (selectedBreeds.includes(breed)) {
+          selectedBreeds = selectedBreeds.filter(b => b !== breed);
+        } else {
+          selectedBreeds = [...selectedBreeds, breed];
+        }
         render();
       };
 
@@ -291,44 +350,125 @@ function renderFilters() {
 //EVENT LISTENERS
 // Wait for the page to fully load before setting up the buttons
 document.addEventListener('DOMContentLoaded', () => {
-  // When "Add 1 Dog" button is clicked, add 1 dog
-  document.querySelector('#add-1').onclick = () => addPerricos(1);
-  
-  // When "Add 5 Dogs" button is clicked, add 5 dogs
-  document.querySelector('#add-5').onclick = () => addPerricos(5);
-  
-  // When "Reset All" button is clicked, confirm and then reset
-  document.querySelector('#reset').onclick = () => {
-    // Clear the dogs array
+      // Fetch all breeds for suggestions on page load
+      fetchAllBreeds();
+    // Breed search bar event listener
+    const breedSearchInput = document.querySelector('#breed-search-input');
+      // Breed search bar event listener and suggestions
+      const breedSuggestionsDiv = document.getElementById('breed-suggestions');
+      function showBreedSuggestions(value) {
+        breedSuggestionsDiv.innerHTML = '';
+        if (!value) return;
+        // Use all breeds from API for suggestions
+        const breeds = allBreedsList.length > 0
+          ? allBreedsList.sort((a, b) => a.localeCompare(b))
+          : [...new Set(dogs.map(d => d.breed))].sort((a, b) => a.localeCompare(b));
+        const matches = breeds.filter(breed => breed.toLowerCase().includes(value.toLowerCase()));
+        if (matches.length === 0) return;
+        const list = document.createElement('ul');
+        list.className = 'breed-suggestions-list';
+        list.style.width = breedSearchInput.offsetWidth + 'px';
+        matches.forEach(breed => {
+          const item = document.createElement('li');
+          item.textContent = breed;
+          item.className = 'breed-suggestion-item';
+          item.onmousedown = () => {
+            breedSearchInput.value = breed;
+            breedSearchTerm = breed;
+            breedSuggestionsDiv.innerHTML = '';
+            render();
+          };
+          list.appendChild(item);
+        });
+        breedSuggestionsDiv.appendChild(list);
+      }
+      if (breedSearchInput) {
+        breedSearchInput.addEventListener('input', (event) => {
+          breedSearchTerm = event.target.value;
+          showBreedSuggestions(event.target.value);
+          render();
+        });
+        breedSearchInput.addEventListener('blur', () => {
+          setTimeout(() => { breedSuggestionsDiv.innerHTML = ''; }, 100);
+        });
+      }
+  // Helper to disable/enable a button during async operation
+  // Disables the button before running the async function, then re-enables it after
+  function handleAsyncButton(selector, asyncFn) {
+    const btn = document.querySelector(selector);
+    btn.onclick = async (event) => {
+      btn.disabled = true; // Disable button to prevent multiple rapid clicks
+      try {
+        await asyncFn(event); // Wait for the async function (returns a Promise)
+      } finally {
+        btn.disabled = false; // Re-enable button after async function completes
+      }
+    };
+  }
+
+  // Add 1 Dog button: disables while adding, then re-enables
+  handleAsyncButton('#add-1', async () => await addPerricos(1)); 
+  // Add 5 Dogs button: disables while adding, then re-enables
+  handleAsyncButton('#add-5', async () => await addPerricos(5));
+  // Reset All button: disables while resetting, then re-enables
+  // Custom modal logic for reset confirmation
+  const resetModal = document.getElementById('reset-modal');
+  const modalConfirm = document.getElementById('modal-confirm');
+  const modalCancel = document.getElementById('modal-cancel');
+  let resetResolve;
+  function showResetModal() {
+    resetModal.style.display = 'flex';
+    return new Promise((resolve) => {
+      resetResolve = resolve;
+    });
+  }
+  function hideResetModal() {
+    resetModal.style.display = 'none';
+  }
+  modalConfirm.onclick = () => {
+    hideResetModal();
+    if (resetResolve) resetResolve(true);
+  };
+  modalCancel.onclick = () => {
+    hideResetModal();
+    if (resetResolve) resetResolve(false);
+  };
+
+  handleAsyncButton('#reset', async () => {
+    const confirmed = await showResetModal();
+    if (!confirmed) return;
     dogs = [];
-    // Clear filters and selection state
     selectedName = null;
     selectedNames = [];
     selectedBreed = null;
-    // Clear voting results
+    selectedBreeds = [];
     votingResultsDiv.innerHTML = '';
-    // Update the display
     render();
-  };
-
-  // When "Clear Filters" button is clicked, clear the name or breed filter
-  document.querySelector('#clear-filters').onclick = () => {
+  });
+  // Clear Filters button: disables while clearing, then re-enables
+  handleAsyncButton('#clear-filters', async () => {
     selectedName = null;
+    selectedNames = [];
     selectedBreed = null;
+    selectedBreeds = [];
     render();
-  };
-
-  // When "Submit Votes" button is clicked, submit the voting results
-  document.querySelector('#submit-votes').onclick = () => {
+  });
+  // Submit Votes button: disables while submitting, then re-enables
+  handleAsyncButton('#submit-votes', async () => {
     submitVotingResults();
-  };
-
-  // When filter type dropdown changes, update the filters
-  document.querySelector('#filter-type').onchange = (event) => {
-    filterType = event.target.value;  // Update the filter type (name or breed)
-    selectedName = null;  // Clear name filter
-    selectedBreed = null;  // Clear breed filter
-    render();  // Re-render with new filter type
+  });
+  // Filter type dropdown: disables while changing, then re-enables
+  const filterTypeSelect = document.querySelector('#filter-type');
+  filterTypeSelect.onchange = async (event) => { // Disable the select while processing
+    filterTypeSelect.disabled = true;
+    try {
+      filterType = event.target.value;
+      selectedName = null;
+      selectedBreed = null;
+      render();
+    } finally { // Re-enable the select
+      filterTypeSelect.disabled = false;
+    }
   };
 });
 

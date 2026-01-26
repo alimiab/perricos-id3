@@ -42,19 +42,35 @@ I've added several enhancements beyond the original requirements, such as:
 - Breed filtering (in addition to name filtering)
 - Dog counter
 - Remove individual dogs
-- Voting results submission with date-stamped JSON download
 - Comprehensive error handling and user feedback
 - Filters hide when count is zero
 - Filter counts display
 - Multiple name filter selection
 - Filter type dropdown selector
 - Clear filters button
-- Formatted voting results table
+- Formatted voting results table with date-stamped JSON download
 - Used JSDoc for tags and comments: https://jsdoc.app/about-getting-started 
 - Commented step by step of most of the general code
+- Added a prompt for website to make sure the user actually wants to select "reset all"
+
+## Goals by Me
+
+Here is a list of possible additions/changes that can be made for the future:
+- Fix error; 
+  - "Search breed" selection and "Filter by" selection intertwined
+    - when the "Filter by" selection "breed" is selected and within "Search breed:" a specific breed is chosen then outcome clashes
+    - Possible solutions: when search bar has a breed within, filter is not allowed to be selected OR a prompt pops up stating if filter is selected then search bar will be emptied. Another option is if filter has been selected then search breed fades where when interacted with prompt pops up suggesting that filters need to be unselected/cleared.
+- Add log in for user
+- Add dates to dog cards for user's last interaction with said card
+- Add date of the last time the user logged in
+- Change format of dog cards to a scroller view (using swiperjs.com)
+- make a loading bar for dog cards to load
+- Add sort filter button for alphabetical number of name or breed
+- Make a landing page
 
 ## Notice for lecturer
 
 During Christmas I have been working on this project. When it came to publishing it for submission I made a mistake when trying to "fork" the project. Unfortunately, I had used "fork" on the perricos project thinking my commits were attached, they were not and before checking the published file I had already erased my work. I have since learnt from my mistake and have made a replacement project as fast I could. Apologies for the inconvenience.
 
-Furthermore, absence of attendance on the dates 08/01/2026 and 09/01/2026 were due to an urgent hospital visit for my health. A medical report will be sent soon. Thank you for your patience and understanding.
+Furthermore, absence of attendance on the dates 08/01/2026 and 09/01/2026 were due to an urgent hospital visit for my health with a follow up of home recovery of a week 12/01/2026 til the 18/01/2026. 
+The dates 24/01/2026 til the 27/01/2026 included further absence due to my mother needing urgent medical care with emergency surgeries needed. This absence was to care for my siblings aged 6 and 8. A medical report will be sent for either case if needed. Thank you for your patience and understanding.
