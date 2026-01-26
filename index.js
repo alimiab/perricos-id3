@@ -70,6 +70,7 @@ async function addPerricos(amount) {
         image: dogData.image,
         breed: dogData.breed,
         votes: 0,
+        lastInteraction: null,
       });
     }
   } else {
@@ -102,6 +103,7 @@ async function addPerricos(amount) {
         image: dogData.image,
         breed: dogData.breed,
         votes: 0,
+        lastInteraction: null,
       });
     }
   }
@@ -115,8 +117,9 @@ async function addPerricos(amount) {
 function removeDog(dogId) {
   // Find the index of the dog with the given ID
   const index = dogs.findIndex(d => d.id === dogId);
-  // If found, remove it from the array
+  // If found, update lastInteraction before removing
   if (index !== -1) {
+    dogs[index].lastInteraction = new Date().toISOString();
     dogs.splice(index, 1);
     render();
   }
@@ -215,7 +218,16 @@ function renderDogs() {
     const card = document.createElement('div');
     card.className = 'card';
 
-    // Fill the card with HTML (image, name, breed, votes, buttons)
+    // Format last interaction date
+    let lastInteractionText = '';
+    if (dog.lastInteraction) {
+      const date = new Date(dog.lastInteraction);
+      lastInteractionText = `Last interaction: ${date.toLocaleString()}`;
+    } else {
+      lastInteractionText = '';
+    }
+
+    // Fill the card with HTML (image, name, breed, votes, buttons, last interaction)
     card.innerHTML = `
       <button class="delete-btn" title="Remove this dog">✕</button>
       <img src="${dog.image}" alt="${dog.name}" />
@@ -226,27 +238,30 @@ function renderDogs() {
         <button class="vote-btn like-btn" title="Like this dog">👍</button>
         <button class="vote-btn dislike-btn" title="Dislike this dog">👎</button>
       </div>
+      <div class="last-interaction" style="margin-top:10px; font-size:0.9em; color:#888;">${lastInteractionText}</div>
     `;
 
     // Get all buttons from the card
     const deleteBtn = card.querySelector('.delete-btn');
     const [likeBtn, dislikeBtn] = card.querySelectorAll('.vote-btn');
 
-    // Set up the delete button - removes the dog when clickedW
+    // Set up the delete button - removes the dog when clicked
     deleteBtn.onclick = () => {
       removeDog(dog.id);
     };
 
     // Set up the like button - increases votes when clicked
     likeBtn.onclick = () => {
-      dog.votes++;        // Add 1 vote
-      renderDogs();       // Refresh the display to show the new vote count
+      dog.votes++;
+      dog.lastInteraction = new Date().toISOString();
+      renderDogs();
     };
 
     // Set up the dislike button - decreases votes when clicked
     dislikeBtn.onclick = () => {
-      dog.votes--;        // Subtract 1 vote
-      renderDogs();       // Refresh the display to show the new vote count
+      if (dog.votes > 0) dog.votes--;
+      dog.lastInteraction = new Date().toISOString();
+      renderDogs();
     };
 
     // Add the card to the page
