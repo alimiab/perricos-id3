@@ -330,13 +330,31 @@ header p {
 }
 
 /*FILTERS HEADER*/
+
 .filters-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;  /* Vertically align items to center */
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   margin-bottom: 15px;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: wrap;
+}
+
+.breed-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-type-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#clear-filters {
+  margin-left: auto;
 }
 
 .filters-header h2 {

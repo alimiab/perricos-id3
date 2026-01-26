@@ -35,18 +35,19 @@
       <!-- FILTER SECTION - Shows buttons to filter dogs by name or breed -->
       <div class="filters-section">
         <div class="filters-header">
+          <!-- Search bar for breed (left) -->
+          <div class="breed-search">
+            <label for="breed-search-input">Search breed:</label>
+            <input type="text" id="breed-search-input" placeholder="Type of breed..." autocomplete="off" />
+            <div id="breed-suggestions"></div>
+          </div>
+          <!-- Filter type selector (right of breed search) -->
           <div class="filter-type-selector">
             <label for="filter-type">Filter by:</label>
             <select id="filter-type">
               <option value="name">Name</option>
               <option value="breed">Breed</option>
             </select>
-          </div>
-          <!-- Search bar for breed -->
-          <div class="breed-search">
-            <label for="breed-search-input">Search breed:</label>
-            <input type="text" id="breed-search-input" placeholder="Type of breed..." autocomplete="off" />
-            <div id="breed-suggestions"></div>
           </div>
           <!-- Button to clear all filters -->
           <button id="clear-filters" class="btn btn-secondary">Clear Filters</button>
