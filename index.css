@@ -346,6 +346,19 @@ header p {
   align-items: center;
   gap: 8px;
 }
+.breed-search label {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 0;
+}
+.breed-search input[type="text"] {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  height: 36px;
+  font-size: 1em;
+}
 
 .filter-type-selector {
   display: flex;
