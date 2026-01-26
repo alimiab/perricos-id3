@@ -56,7 +56,10 @@ I've added several enhancements beyond the original requirements, such as:
 ## Goals by Me
 
 Here is a list of possible additions/changes that can be made for the future:
-- Fix error; when the filter selection "breed" is selected and a specific breed is chosen but within the search bar a different breed is selected that a solution is made. Possible solutions: when search bar has a breed within, filter is not allowed to be selected OR a prompt pops up stating if filter is selected then search bar will be emptied. Another option is if filter has been selected then search breed fades where when interacted with prompt pops up suggesting that filters need to be unselected/cleared.
+- Fix error; 
+  - "Search breed" selection and "Filter by" selection intertwined
+    - when the "Filter by" selection "breed" is selected and within "Search breed:" a specific breed is chosen then outcome clashes
+    - Possible solutions: when search bar has a breed within, filter is not allowed to be selected OR a prompt pops up stating if filter is selected then search bar will be emptied. Another option is if filter has been selected then search breed fades where when interacted with prompt pops up suggesting that filters need to be unselected/cleared.
 - Add log in for user
 - Add dates to dog cards for user's last interaction with said card
 - Add date of the last time the user logged in
