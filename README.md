@@ -51,9 +51,10 @@ I've added several enhancements beyond the original requirements, such as:
 - Formatted voting results table with date-stamped JSON download
 - Used JSDoc for tags and comments: https://jsdoc.app/about-getting-started 
 - Commented step by step of most of the general code
+- Added a prompt for website to make sure the user actually wants to select "reset all"
 
 ## Notice for lecturer
 
 During Christmas I have been working on this project. When it came to publishing it for submission I made a mistake when trying to "fork" the project. Unfortunately, I had used "fork" on the perricos project thinking my commits were attached, they were not and before checking the published file I had already erased my work. I have since learnt from my mistake and have made a replacement project as fast I could. Apologies for the inconvenience.
 
-Furthermore, absence of attendance on the dates 08/01/2026 and 09/01/2026 were due to an urgent hospital visit for my health. A medical report will be sent soon. Thank you for your patience and understanding.
+Furthermore, absence of attendance on the dates 08/01/2026 and 09/01/2026 were due to an urgent hospital visit for my health with a follow up of home recovery days. The 24/01/2026 til the 27/01/2026 included further absence due my mother needing urgent medical care with emergency surgeries needed. This absence was to care for my siblings aged 6 and 8. A medical report will be sent if needed. Thank you for your patience and understanding.
