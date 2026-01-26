@@ -74,6 +74,8 @@ Here is a list of possible additions/changes that can be made for the future:
 - Aesthetically improve swiper slides
 - Fix error;
   - when e.g 5 dogs are added, then the sliders dots below dog cards stay even when dog cards are removed.
+- Fix errors;
+  - when user interacts with dog card, then it brings user back to the start of the slides
 
 ## Notice for lecturer
 
