@@ -1,4 +1,4 @@
-# File for Text Description
+# File for Project explanation, goals, achievements and note for lecturer
 
 Ya están los videos subidos. Para los deberes de navidad usad [este repositorio](https://github.com/josemigg/perricos-id3)
 
