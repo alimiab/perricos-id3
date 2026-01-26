@@ -52,6 +52,8 @@ I've added several enhancements beyond the original requirements, such as:
 - Used JSDoc for tags and comments: https://jsdoc.app/about-getting-started 
 - Commented step by step of most of the general code
 - Added a prompt for website to make sure the user actually wants to select "reset all"
+- Change format of dog cards grid to a scroller view (using swiperjs.com)
+
 
 ## Goals by Me
 
@@ -69,6 +71,9 @@ Here is a list of possible additions/changes that can be made for the future:
 - Add sort filter button for alphabetical number of name or breed
 - Make a landing page
 - Aesthetically improve search bar
+- Aesthetically improve swiper slides
+- Fix error;
+  - when e.g 5 dogs are added, then the sliders dots below dog cards stay even when dog cards are removed.
 
 ## Notice for lecturer
 
