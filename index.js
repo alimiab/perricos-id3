@@ -411,7 +411,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add 5 Dogs button: disables while adding, then re-enables
   handleAsyncButton('#add-5', async () => await addPerricos(5));
   // Reset All button: disables while resetting, then re-enables
+  // Custom modal logic for reset confirmation
+  const resetModal = document.getElementById('reset-modal');
+  const modalConfirm = document.getElementById('modal-confirm');
+  const modalCancel = document.getElementById('modal-cancel');
+  let resetResolve;
+  function showResetModal() {
+    resetModal.style.display = 'flex';
+    return new Promise((resolve) => {
+      resetResolve = resolve;
+    });
+  }
+  function hideResetModal() {
+    resetModal.style.display = 'none';
+  }
+  modalConfirm.onclick = () => {
+    hideResetModal();
+    if (resetResolve) resetResolve(true);
+  };
+  modalCancel.onclick = () => {
+    hideResetModal();
+    if (resetResolve) resetResolve(false);
+  };
+
   handleAsyncButton('#reset', async () => {
+    const confirmed = await showResetModal();
+    if (!confirmed) return;
     dogs = [];
     selectedName = null;
     selectedNames = [];

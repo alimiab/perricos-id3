@@ -60,6 +60,17 @@
         <p>Dogs: <span id="dog-count">0</span></p>
       </div>
 
+      <!-- Custom Modal for Reset Confirmation -->
+      <div id="reset-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <p>Are you sure you want to reset and delete all dogs? This action cannot be undone.</p>
+          <div class="modal-actions">
+            <button id="modal-confirm" class="btn btn-danger">Yes, Reset All</button>
+            <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </div>
+
       <!-- DOG LIST SECTION - Shows all the dog cards -->
       <!-- This div will be filled by JavaScript with dog cards -->
       <div id="dog-list" class="dog-list"></div>
