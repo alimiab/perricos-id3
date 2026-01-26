@@ -42,14 +42,13 @@ I've added several enhancements beyond the original requirements, such as:
 - Breed filtering (in addition to name filtering)
 - Dog counter
 - Remove individual dogs
-- Voting results submission with date-stamped JSON download
 - Comprehensive error handling and user feedback
 - Filters hide when count is zero
 - Filter counts display
 - Multiple name filter selection
 - Filter type dropdown selector
 - Clear filters button
-- Formatted voting results table
+- Formatted voting results table with date-stamped JSON download
 - Used JSDoc for tags and comments: https://jsdoc.app/about-getting-started 
 - Commented step by step of most of the general code
 
