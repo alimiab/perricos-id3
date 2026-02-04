@@ -9,6 +9,7 @@ body {
 	overflow: hidden; /* Prevents scrollbars if content overflows slightly */
 }
 
+/* Top Header Bar */
 .top-bar {
 	width: 100%;
 	background: #C8A885;
@@ -18,28 +19,38 @@ body {
 	justify-content: space-between;
 	padding: 0.75rem 2rem;
 	box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-	flex-shrink: 0; /* Prevent top bar from shrinking */
-	box-sizing: border-box; /* Include padding in width calculation */
+	flex-shrink: 0;
+	box-sizing: border-box;
+}
+.logo-container {
+	display: flex;
+	align-items: center;
 }
 .logo-image {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
 }
 .logo-image img {
-    height: 50px;
-    width: auto;
-    display: block;
+	height: 50px;
+	width: auto;
+	display: block;
 }
 .logo {
 	font-size: 1.5rem;
 	font-weight: bold;
 	letter-spacing: 1px;
-    color: #7E4C2C;
-    text-decoration: none;
-    list-style: none;
-    display: flex;
-    transition: color 0.2s;
+	color: #3a1f11;
+	text-decoration: none !important;
+	list-style: none;
+	display: flex;
+	align-items: center;
+	transition: color 0.2s;
+	cursor: pointer;
+}
+.logo:visited, .logo:active, .logo:hover {
+	color: #3a1f11;
+	text-decoration: none;
 }
 .nav-links {
 	list-style: none;
@@ -55,9 +66,10 @@ body {
 	transition: color 0.2s;
 }
 .nav-links li a:hover {
-	color: #ffd700;
+	color: #00b3ff;
 }
 
+/* Main Landing Section */
 .landing-main {
 	flex-grow: 1; /* Allow main content to fill remaining space */
 	display: flex;
@@ -73,14 +85,4 @@ body {
 .landing-image-mobile {
     width: 100%;
     height: auto;
-}
-
-h1 {
-	font-size: 2.5rem;
-	margin-bottom: 0.5rem;
-	color: #2d3e50;
-}
-p {
-	font-size: 1.2rem;
-	color: #555;
 }
