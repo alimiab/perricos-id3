@@ -283,7 +283,7 @@
 /*BODY AND GENERAL PAGE STYLES*/
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);  /* Red gradient background */
+  background-color: #E4DED7;
   text-align: center;
   min-height: 100vh;  /* Make the body at least the full height of the screen */
   padding: 0;
