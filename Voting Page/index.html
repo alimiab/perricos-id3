@@ -15,7 +15,57 @@
     <!-- Swiper.js CSS for slider functionality -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   </head>
+  
   <body>
+    <!-- TOP BAR (copied from Landing Page) -->
+    <nav class="top-bar">
+      <div class="logo-container">
+        <a class="logo-image" href="../Landing Page/index.html">
+          <img src="images/logo.png" alt="Puppy Paradise Logo">
+        </a>
+        <a class="logo" href="../Landing Page/index.html">Puppy Paradise</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Vote</a></li>
+        <li><a href="#">All Our Dogs</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <div class="right-bar">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <div class="signin-icon" id="signinIcon" title="Sign In">
+          <img src="images/sign-in.png" alt="Sign In" />
+        </div>
+      </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="index.html">Vote</a>
+        <a href="#">All Our Dogs</a>
+        <a href="#">Contact</a>
+      </div>
+      <!-- Sign-In Modal -->
+      <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="signinModal">
+          <button class="close-modal" id="closeModalBtn" aria-label="Close">&times;</button>
+          <h2>Sign In</h2>
+          <form id="signinForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autocomplete="username">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password">
+            <button type="submit" class="modal-signin-btn">Sign In</button>
+          </form>
+          <div class="modal-footer">
+            <span>Don't have an account?</span>
+            <a href="../Create Account Page/index.html" id="createAccountLink">Create one</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- END TOP BAR -->
+
     <!-- HEADER SECTION - Shows the title and description -->
     <header>
       <h1>🐕 Vote for Dogs</h1>
@@ -64,7 +114,7 @@
       </div>
 
       <!-- Custom Modal for Reset Confirmation -->
-      <div id="reset-modal" class="modal" style="display:none;">
+      <div id="reset-modal" class="reset-modal" style="display:none;">
         <div class="modal-content">
           <p>Are you sure you want to reset and delete all dogs? This action cannot be undone.</p>
           <div class="modal-actions">
