@@ -1,0 +1,30 @@
+<!-- HTML for Landing Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Landing Page</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<nav class="top-bar">
+		<div class="logo">Puppy Paradise</div>
+		<ul class="nav-links">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+		</ul>
+	</nav>
+	<main class="landing-main">
+		<picture>
+			<source media="(max-width: 743px)" srcset="images/landing-mobile.PNG">
+			<source media="(min-width: 744px)" srcset="images/landing.PNG">
+			<img src="images/landing.PNG" alt="Landing Image" class="landing-image">
+            <img src="images/landing-mobile.png" alt="Landing Mobile Image" class="landing-image-mobile">
+		</picture>
+	</main>
+
+	<script src="index.js"></script>
+</body>
+</html>
