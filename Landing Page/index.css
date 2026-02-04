@@ -126,6 +126,114 @@ body {
 	color: #3a1f11;
 }
 
+/* Sign-in icon styles */
+.signin-icon {
+	display: flex;
+	align-items: center;
+	margin-left: 1rem;
+	cursor: pointer;
+	z-index: 20;
+}
+.right-bar {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-left: 1rem;
+}
+.signin-icon img {
+	height: 32px;
+	width: 32px;
+	object-fit: contain;
+	filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+	transition: box-shadow 0.2s;
+}
+.signin-icon:hover img {
+	box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Modal styles */
+.modal-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0,0,0,0.35);
+	z-index: 100;
+	justify-content: center;
+	align-items: center;
+}
+.modal {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+	padding: 2rem 2.5rem 1.5rem 2.5rem;
+	min-width: 320px;
+	max-width: 90vw;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+.modal h2 {
+	margin-top: 0;
+	margin-bottom: 1.2rem;
+	color: #7E4C2C;
+	font-size: 1.6rem;
+	text-align: center;
+}
+.modal label {
+	margin-top: 0.7rem;
+	margin-bottom: 0.2rem;
+	font-size: 1rem;
+	color: #3a1f11;
+}
+.modal input {
+	padding: 0.5rem;
+	font-size: 1rem;
+	border-radius: 6px;
+	border: 1px solid #C8A885;
+	margin-bottom: 0.5rem;
+}
+.modal-signin-btn {
+	background: #C8A885;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.7rem;
+	font-size: 1rem;
+	font-weight: bold;
+	margin-top: 0.7rem;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+.modal-signin-btn:hover {
+	background: #7E4C2C;
+}
+.modal-footer {
+	margin-top: 1.2rem;
+	text-align: center;
+	font-size: 1rem;
+}
+.modal-footer a {
+	color: #00b3ff;
+	text-decoration: underline;
+	margin-left: 0.3rem;
+	cursor: pointer;
+}
+.close-modal {
+	position: absolute;
+	top: 0.7rem;
+	right: 1rem;
+	background: none;
+	border: none;
+	font-size: 1.7rem;
+	color: #7E4C2C;
+	cursor: pointer;
+	z-index: 10;
+}
+
 @media (max-width: 900px) {
 	.nav-links {
 		display: none;

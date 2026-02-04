@@ -21,15 +21,38 @@
 			<li><a href="#">All Our Dogs</a></li>
 			<li><a href="#">Sign-In</a></li>
 		</ul>
-		<button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
-			<span class="bar"></span>
-			<span class="bar"></span>
-			<span class="bar"></span>
-		</button>
+		<div class="right-bar">
+			<button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+			<div class="signin-icon" id="signinIcon" title="Sign In">
+				<img src="images/sign-in.png" alt="Sign In" />
+			</div>
+		</div>
 		<div class="dropdown-menu" id="dropdownMenu">
 			<a href="../Voting Page/index.html">Vote</a>
 			<a href="#">All Our Dogs</a>
 			<a href="#">Sign-In</a>
+		</div>
+		<!-- Sign-In Modal -->
+		<div class="modal-overlay" id="modalOverlay">
+			<div class="modal" id="signinModal">
+				<button class="close-modal" id="closeModalBtn" aria-label="Close">&times;</button>
+				<h2>Sign In</h2>
+				<form id="signinForm">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" required autocomplete="username">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" required autocomplete="current-password">
+					<button type="submit" class="modal-signin-btn">Sign In</button>
+				</form>
+				<div class="modal-footer">
+					<span>Don't have an account?</span>
+					<a href="../Create Account Page/index.html" id="createAccountLink">Create one</a>
+				</div>
+			</div>
 		</div>
 	</nav>
     <!-- Main Landing Section -->
